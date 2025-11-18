@@ -36,9 +36,15 @@
 
 .portfolio-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .portfolio-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .stat-card {
@@ -162,9 +168,28 @@
   transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
+.position-card.closed {
+  opacity: 0.85;
+  border-style: dashed;
+}
+
 .position-card:hover {
   border-color: #B9C0FF;
   transform: translateX(4px);
+}
+
+.position-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(185, 192, 255, 0.1);
+}
+
+.closed-date {
+  font-size: 0.75rem;
+  color: #8b90a7;
+  font-style: italic;
 }
 
 .position-header {
