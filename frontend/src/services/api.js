@@ -86,9 +86,19 @@ export async function getPositions(walletAddress) {
 }
 
 // ============================================
-// BETS API (Placeholder for future)
+// BETS API
 // ============================================
 
+/**
+ * Place a bet on a market
+ * @param {Object} betData - Bet data
+ * @param {string} betData.marketId - Market ID
+ * @param {string} betData.walletAddress - User wallet address
+ * @param {string} betData.outcome - "YES" or "NO"
+ * @param {number} betData.amount - Bet amount
+ * @param {boolean} betData.isPrivate - Whether bet is private
+ * @returns {Promise<Object>} { success, message, data }
+ */
 export async function placeBet(betData) {
     return apiFetch('/api/bets', {
         method: 'POST',
@@ -96,11 +106,69 @@ export async function placeBet(betData) {
     });
 }
 
+/**
+ * Get all bets with optional filtering
+ * @param {Object} params - Query parameters
+ * @param {string} params.market - Filter by market ID
+ * @param {string} params.wallet - Filter by wallet address
+ * @returns {Promise<Object>} { success, count, data }
+ */
+export async function getBets(params = {}) {
+    const queryParams = new URLSearchParams();
+
+    if (params.market) {
+        queryParams.append('market', params.market);
+    }
+    if (params.wallet) {
+        queryParams.append('wallet', params.wallet);
+    }
+
+    const queryString = queryParams.toString();
+    const endpoint = `/api/bets${queryString ? `?${queryString}` : ''}`;
+
+    return apiFetch(endpoint);
+}
+
+/**
+ * Get a single bet by ID
+ * @param {string} betId - Bet ID
+ * @returns {Promise<Object>} { success, data }
+ */
+export async function getBetById(betId) {
+    return apiFetch(`/api/bets/${betId}`);
+}
+
+/**
+ * Close a position (delete bet)
+ * @param {string} betId - Bet ID to close
+ * @returns {Promise<Object>} { success, message, data }
+ */
+export async function closeBet(betId) {
+    return apiFetch(`/api/bets/${betId}`, {
+        method: 'DELETE',
+    });
+}
+
+/**
+ * Get betting statistics summary
+ * @returns {Promise<Object>} { success, data }
+ */
+export async function getBetStats() {
+    return apiFetch('/api/bets/stats/summary');
+}
+
 export default {
+    // Markets
     getMarkets,
     getMarketById,
     getMarketStats,
     createMarket,
+    // Positions
     getPositions,
+    // Bets
     placeBet,
+    getBets,
+    getBetById,
+    closeBet,
+    getBetStats,
 };

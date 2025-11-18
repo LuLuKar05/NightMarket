@@ -7,9 +7,9 @@ import Modal from '../components/common/Modal';
 import PrivacyBadge from '../components/market/PrivacyBadge';
 import OddsBar from '../components/market/OddsBar';
 import Countdown from '../components/market/Countdown';
-import { getMarketById } from '../services/api';
+import { getMarketById, placeBet } from '../services/api';
 
-export default function MarketDetail() {
+export default function MarketDetail({ isConnected, walletAddress, onConnect }) {
   const { id } = useParams();
   const [market, setMarket] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,6 +17,9 @@ export default function MarketDetail() {
   const [betAmount, setBetAmount] = useState('');
   const [showBetModal, setShowBetModal] = useState(false);
   const [selectedOutcome, setSelectedOutcome] = useState(null);
+  const [betLoading, setBetLoading] = useState(false);
+  const [betError, setBetError] = useState(null);
+  const [betSuccess, setBetSuccess] = useState(null);
 
   // Fetch market data from API
   useEffect(() => {
@@ -42,14 +45,73 @@ export default function MarketDetail() {
   };
 
   const handlePlaceBet = (outcome) => {
+    // Check if wallet is connected
+    if (!isConnected || !walletAddress) {
+      // Prompt user to connect wallet
+      if (window.confirm('You need to connect your wallet to place bets. Would you like to connect now?')) {
+        onConnect();
+      }
+      return;
+    }
+
     setSelectedOutcome(outcome);
+    setBetAmount('');
+    setBetError(null);
+    setBetSuccess(null);
     setShowBetModal(true);
   };
 
-  const confirmBet = () => {
-    console.log(`Placing ${selectedOutcome} bet of ${betAmount} DUST`);
-    setShowBetModal(false);
-    setBetAmount('');
+    const confirmBet = async () => {
+    // Double-check wallet connection
+    if (!isConnected || !walletAddress) {
+      setBetError('Please connect your wallet to place a bet');
+      return;
+    }
+
+    // Validate bet amount
+    const amount = parseFloat(betAmount);
+    if (!amount || amount <= 0) {
+      setBetError('Please enter a valid bet amount');
+      return;
+    }
+
+    try {
+      setBetLoading(true);
+      setBetError(null);
+
+      const betData = {
+        marketId: market.id,
+        walletAddress: walletAddress,
+        outcome: selectedOutcome,
+        amount: amount,
+        isPrivate: market.isPrivate || false
+      };
+
+      const response = await placeBet(betData);
+
+      if (response.success) {
+        setBetSuccess({
+          message: `Successfully placed ${selectedOutcome} bet!`,
+          shares: response.data.shares,
+          amount: response.data.amount
+        });
+        
+        // Refresh market data to get updated odds
+        fetchMarket();
+
+        // Clear form and close modal after 2 seconds
+        setTimeout(() => {
+          setShowBetModal(false);
+          setBetAmount('');
+          setBetSuccess(null);
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Error placing bet:', err);
+      setBetError(err.message || 'Failed to place bet');
+    } finally {
+      setBetLoading(false);
+    }
   };
 
   if (loading) {
@@ -174,32 +236,135 @@ export default function MarketDetail() {
 
       <Modal 
         isOpen={showBetModal} 
-        onClose={() => setShowBetModal(false)}
+        onClose={() => !betLoading && setShowBetModal(false)}
         title={`Place ${selectedOutcome} Bet`}
       >
         <div className="bet-modal-content">
-          <p>You are betting <strong>{selectedOutcome}</strong> on this market.</p>
-          <Input
-            label="Bet Amount"
-            type="number"
-            value={betAmount}
-            onChange={(e) => setBetAmount(e.target.value)}
-            placeholder="Enter amount"
-            suffix="DUST"
-          />
-          <div className="potential-return">
-            <span>Potential Return:</span>
-            <span className="return-value">
-              {betAmount ? (parseFloat(betAmount) * (selectedOutcome === 'YES' ? market.yesOdds : market.noOdds) / 100).toFixed(2) : '0'} DUST
-            </span>
+          {betSuccess ? (
+            <div style={{ 
+              padding: '2rem', 
+              background: '#4CAF50', 
+              color: 'white', 
+              borderRadius: '8px',
+              textAlign: 'center'
+            }}>
+              <h3>✓ {betSuccess.message}</h3>
+              <p>Amount: {betSuccess.amount} DUST</p>
+              <p>Shares: {betSuccess.shares.toFixed(2)}</p>
+            </div>
+          ) : (
+            <>
+              <p>You are betting <strong>{selectedOutcome}</strong> on this market.</p>
+              
+              {betError && (
+                <div style={{ 
+                  padding: '1rem', 
+                  background: '#ff4444', 
+                  color: 'white', 
+                  borderRadius: '8px',
+                  marginBottom: '1rem'
+                }}>
+                  {betError}
+                </div>
+              )}
+
+              <Input
+                label="Bet Amount (DUST)"
+                type="number"
+                value={betAmount}
+                onChange={(e) => setBetAmount(e.target.value)}
+                placeholder="Enter amount"
+                suffix="DUST"
+                disabled={betLoading}
+              />
+              
+              <div className="potential-return" style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '1rem',
+                background: '#f5f5f5',
+                borderRadius: '8px',
+                marginTop: '1rem'
+              }}>
+                <span>Potential Shares:</span>
+                <span className="return-value" style={{ fontWeight: 'bold' }}>
+                  {betAmount ? (parseFloat(betAmount) / (selectedOutcome === 'YES' ? market.yesOdds / 100 : market.noOdds / 100)).toFixed(2) : '0'}
+                </span>
+              </div>
+
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '1rem',
+                background: '#e8f5e9',
+                borderRadius: '8px',
+                marginTop: '0.5rem'
+              }}>
+                <span>Current Odds:</span>
+                <span style={{ fontWeight: 'bold' }}>
+                  {selectedOutcome === 'YES' ? market.yesOdds : market.noOdds}%
+                </span>
+              </div>
+
+              <Button 
+                variant="primary" 
+                onClick={confirmBet}
+                disabled={!betAmount || parseFloat(betAmount) <= 0 || betLoading}
+                style={{ marginTop: '1.5rem', width: '100%' }}
+              >
+                {betLoading ? 'Placing Bet...' : 'Confirm Bet'}
+              </Button>
+            </>
+          )}
+        </div>
+      </Modal>
+
+      {/* Wallet Connect Prompt Modal */}
+      <Modal 
+        isOpen={showConnectModal} 
+        onClose={() => setShowConnectModal(false)}
+        title="Connect Wallet Required"
+      >
+        <div style={{ padding: '1rem' }}>
+          <p style={{ marginBottom: '1.5rem', fontSize: '1rem', lineHeight: '1.6' }}>
+            You need to connect your wallet to place bets on prediction markets.
+          </p>
+          
+          <div style={{ 
+            background: '#f5f5f5', 
+            padding: '1rem', 
+            borderRadius: '8px',
+            marginBottom: '1.5rem'
+          }}>
+            <p style={{ fontSize: '0.9rem', color: '#666', margin: 0 }}>
+              💡 Connecting your wallet allows you to:
+            </p>
+            <ul style={{ marginTop: '0.5rem', paddingLeft: '1.5rem', color: '#666' }}>
+              <li>Place bets on markets</li>
+              <li>Track your portfolio</li>
+              <li>View your betting history</li>
+            </ul>
           </div>
-          <Button 
-            variant="primary" 
-            onClick={confirmBet}
-            disabled={!betAmount || parseFloat(betAmount) <= 0}
-          >
-            Confirm Bet
-          </Button>
+
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <Button 
+              variant="primary" 
+              onClick={() => {
+                setShowConnectModal(false);
+                onConnect();
+              }}
+              style={{ flex: 1 }}
+            >
+              Connect Wallet
+            </Button>
+            <Button 
+              variant="secondary" 
+              onClick={() => setShowConnectModal(false)}
+              style={{ flex: 1 }}
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
       </Modal>
     </div>

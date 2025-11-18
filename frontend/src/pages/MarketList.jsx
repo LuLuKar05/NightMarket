@@ -61,9 +61,13 @@ export default function MarketList() {
     }
   };
 
-  const totalVolume = stats?.totalVolume || 0;
-  const totalTraders = stats?.totalTraders || 0;
-  const activeMarketsCount = stats?.activeMarkets || 0;
+  // Calculate stats from currently filtered markets
+  const filteredStats = {
+    activeMarketsCount: markets.filter(m => m.status === 'active').length,
+    totalMarkets: markets.length,
+    totalVolume: markets.reduce((sum, m) => sum + (m.volume || 0), 0),
+    totalTraders: markets.reduce((sum, m) => sum + (m.traders || 0), 0),
+  };
 
   return (
     <div className="market-list-page">
@@ -129,15 +133,15 @@ export default function MarketList() {
 
       <div className="market-stats-row">
         <div className="stat-card">
-          <span className="stat-number">{activeMarketsCount}</span>
-          <span className="stat-label">ACTIVE MARKETS</span>
+          <span className="stat-number">{selectedStatus === 'active' ? filteredStats.activeMarketsCount : filteredStats.totalMarkets}</span>
+          <span className="stat-label">{selectedStatus === 'active' ? 'ACTIVE MARKETS' : 'TOTAL MARKETS'}</span>
         </div>
         <div className="stat-card">
-          <span className="stat-number">{totalVolume.toLocaleString()} DUST</span>
+          <span className="stat-number">{filteredStats.totalVolume.toLocaleString()} DUST</span>
           <span className="stat-label">TOTAL VOLUME</span>
         </div>
         <div className="stat-card">
-          <span className="stat-number">{totalTraders.toLocaleString()}</span>
+          <span className="stat-number">{filteredStats.totalTraders.toLocaleString()}</span>
           <span className="stat-label">TOTAL TRADERS</span>
         </div>
       </div>

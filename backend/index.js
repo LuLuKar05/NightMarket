@@ -32,6 +32,7 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/markets', require('./routes/markets'));
+app.use('/api/bets', require('./routes/bets'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -88,12 +88,22 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/markets" element={<MarketList />} />
-            <Route path="/markets/:id" element={<MarketDetail />} />
+            <Route 
+              path="/markets/:id" 
+              element={
+                <MarketDetail 
+                  isConnected={isConnected}
+                  walletAddress={walletState?.state?.address}
+                  onConnect={handleConnect}
+                />
+              } 
+            />
             <Route
               path="/portfolio"
               element={
                 <Portfolio
                   isConnected={isConnected}
+                  walletAddress={walletState?.state?.address}
                   onConnect={handleConnect}
                 />
               }
