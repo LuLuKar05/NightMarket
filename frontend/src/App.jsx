@@ -91,7 +91,16 @@ function App() {
         <main className="app-main">
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/markets" element={<MarketList />} />
+            <Route 
+              path="/markets" 
+              element={
+                <MarketList 
+                  isConnected={isConnected}
+                  walletAddress={walletState?.state?.address}
+                  onConnect={handleConnect}
+                />
+              } 
+            />
             <Route 
               path="/markets/:id" 
               element={

@@ -91,6 +91,29 @@ router.get('/stats', (req, res) => {
 });
 
 /**
+ * GET /api/markets/categories
+ * Get list of available categories
+ */
+router.get('/categories', (req, res) => {
+    try {
+        const categories = [...new Set(markets.map(m => m.category))];
+
+        res.json({
+            success: true,
+            data: categories,
+            message: `Retrieved ${categories.length} categories`
+        });
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch categories',
+            message: error.message
+        });
+    }
+});
+
+/**
  * GET /api/markets/:id
  * Get a single market by ID
  */
@@ -124,6 +147,7 @@ router.get('/:id', (req, res) => {
 /**
  * POST /api/markets
  * Create a new market
+ * Body: { question, description, category, endDate, isPrivate, createdBy, initialLiquidity }
  */
 router.post('/', (req, res) => {
     try {
@@ -133,7 +157,8 @@ router.post('/', (req, res) => {
             category,
             endDate,
             isPrivate,
-            createdBy
+            createdBy,
+            initialLiquidity
         } = req.body;
 
         // Validation
@@ -145,17 +170,64 @@ router.post('/', (req, res) => {
             });
         }
 
+        // Validate question length
+        if (question.length < 10) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid question',
+                message: 'Question must be at least 10 characters long'
+            });
+        }
+
+        if (question.length > 200) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid question',
+                message: 'Question must be less than 200 characters'
+            });
+        }
+
+        // Validate description length
+        if (description.length < 20) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid description',
+                message: 'Description must be at least 20 characters long'
+            });
+        }
+
+        // Validate endDate is in the future
+        const endDateTime = new Date(endDate);
+        if (isNaN(endDateTime.getTime()) || endDateTime <= new Date()) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid end date',
+                message: 'End date must be a valid date in the future'
+            });
+        }
+
+        // Validate category
+        const validCategories = ['Crypto', 'Technology', 'Science', 'Climate', 'Politics', 'Finance', 'Sports', 'Entertainment', 'Other'];
+        if (!validCategories.includes(category)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid category',
+                message: `Category must be one of: ${validCategories.join(', ')}`
+            });
+        }
+
         // Create new market object
+        // All markets are private (shielded) by default for privacy protection
         const newMarket = {
             id: `market-${uuidv4()}`,
-            question,
-            description,
+            question: question.trim(),
+            description: description.trim(),
             category,
             volume: 0,
             traders: 0,
-            liquidity: 0,
+            liquidity: initialLiquidity || 0,
             status: 'active',
-            isPrivate: isPrivate || false,
+            isPrivate: true, // All markets are private by default
             yesOdds: 50,
             noOdds: 50,
             endDate,

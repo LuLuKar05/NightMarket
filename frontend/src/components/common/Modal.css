@@ -10,7 +10,13 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: 2rem;
+}
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 1rem;
+  }
 }
 
 .modal-content {
