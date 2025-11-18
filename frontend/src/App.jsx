@@ -6,6 +6,7 @@ import MarketDetail from './pages/MarketDetail';
 import Portfolio from './pages/Portfolio';
 import Staking from './pages/Staking';
 import Liquidity from './pages/Liquidity';
+import UserVerification from './components/verification/UserVerification';
 
 function App() {
   const {
@@ -51,6 +52,7 @@ function App() {
           <nav className="app-nav">
             <Link to="/markets" className="nav-link">Markets</Link>
             <Link to="/portfolio" className="nav-link">Portfolio</Link>
+            <Link to="/verification" className="nav-link">Verify</Link>
             <Link to="/staking" className="nav-link">Staking</Link>
             <Link to="/liquidity" className="nav-link">Liquidity</Link>
           </nav>
@@ -134,6 +136,15 @@ function App() {
               path="/liquidity"
               element={
                 <Liquidity
+                  isConnected={isConnected}
+                  onConnect={handleConnect}
+                />
+              }
+            />
+            <Route
+              path="/verification"
+              element={
+                <UserVerification
                   isConnected={isConnected}
                   onConnect={handleConnect}
                 />

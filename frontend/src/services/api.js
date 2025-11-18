@@ -197,6 +197,34 @@ export async function getPortfolioHistory(walletAddress, params = {}) {
     return apiFetch(endpoint);
 }
 
+// ============================================
+// VERIFICATION API
+// ============================================
+
+/**
+ * Submit verification proof
+ * @param {Object} verificationData - Verification data
+ * @param {string} verificationData.commitment - User commitment
+ * @param {string} verificationData.zkProof - Zero-knowledge proof
+ * @param {string} verificationData.kycProvider - KYC provider name
+ * @returns {Promise<Object>} { success, message, status }
+ */
+export async function submitVerification(verificationData) {
+    return apiFetch('/api/verification/submit', {
+        method: 'POST',
+        body: JSON.stringify(verificationData),
+    });
+}
+
+/**
+ * Check verification status by commitment
+ * @param {string} commitment - User commitment
+ * @returns {Promise<Object>} { success, userCommitment, isVerified, ... }
+ */
+export async function checkVerification(commitment) {
+    return apiFetch(`/api/verification/${commitment}`);
+}
+
 export default {
     // Markets
     getMarkets,
@@ -215,4 +243,7 @@ export default {
     // Portfolio
     getPortfolio,
     getPortfolioHistory,
+    // Verification
+    submitVerification,
+    checkVerification,
 };
