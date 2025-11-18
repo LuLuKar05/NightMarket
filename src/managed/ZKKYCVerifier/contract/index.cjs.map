@@ -1,8 +1,0 @@
-{
-  "version": 3,
-  "file": "index.cjs",
-  "sourceRoot": "../../../../",
-  "sources": ["contracts/src/ZKKYCVerifier.compact"],
-  "names": [],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;;;;MAMA,AAAA,iBAEC;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;GAKC;EAbF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;GAaE;EATF,AAAA,YAA0C;;0DAA1C,SAA0C;;;;;;;GAAA;EAE1C,AAAA,oBAEC;;GAAA;EAED,AAAA,aAGC,CAHkB,OAA2B,kBAG7C;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
-}

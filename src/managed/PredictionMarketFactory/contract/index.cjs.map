@@ -1,8 +1,0 @@
-{
-  "version": 3,
-  "file": "index.cjs",
-  "sourceRoot": "../../../../",
-  "sources": ["contracts/src/PredictionMarketFactory.compact"],
-  "names": [],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;;;;;;;MAmCA,AAAA,aA0BC;;;;;cAzBC,UAA0B;cAC1B,aAA6B;cAC7B,UAAkB;cAClB,iBAAyB;cACzB,kBAAiC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;yCAJjC,UAA0B,+BAC1B,aAA6B,+BAC7B,UAAkB,+BAClB,iBAAyB,+BACzB,kBAAiC;;;;;;;;;+CAJjC,UAA0B;+CAC1B,aAA6B;+CAC7B,UAAkB;+CAClB,iBAAyB;+CACzB,kBAAiC;;;OAqBlC;MAED,AAAA,sBAIC;;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;;GAKC;EAxEF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IA4BA;;;;;;;;;uDAAoC;IACpC;;;;;;;;;;;uDAAoC;IACpC;;;;;;;;;uDAAuC;;;;;;;GA0CrC;EAxCF,AAAA,SAA4B;;0DAA5B,MAA4B;;;;;;;;;;;;;;GAAA;EAC5B,AAAA,YAA0C;;0DAA1C,SAA0C;;;;;;;GAAA;EAE1C,AAAA,gBA0BC;;mBAzBC,UAA0B;mBAC1B,aAA6B;mBAC7B,UAAkB;mBAClB,iBAAyB;mBACzB,kBAAiC;;;;;UAGjC,KAAY;IAAZ;;;;;;;;;;2EAAA,KAAY;;;;sDAAA;UACN,WAAoC,2BAAxB;;;;;;;;;;;mGAAY;UACxB,YAaL,gBAZC,WAAS;qCACA,UAAQ;wCACR,aAAW;qCACX,UAAQ;4CACR,iBAAe;;;;;;;;6CAOf,kBAAgB;IAE3B;;;;;;;;;;;;;;;;;;;uHAAkB,YAAU;;;;;;;;;;;;;;sDAArB;WACA,WAAS;GACjB;EAED,AAAA,yBAIC;UAHO,cAA6B,4BAAd;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;uGAAO;4BACrB,cAAY;WACZ,cAAY;GACpB;EAED,AAAA,aAGC,CAHkB,OAA2B,kBAG7C;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IA5CD;qCAAA;;;;;;;;;;;wFAAoC;KAAA;IACpC;;;;;uCAAA;;;;;;;;;;;;;;;;;;;;;;0FAAoC;;;;;;uCAApC;;;;;;;;;;;;;;;;;0FAAoC;;;;;;wCAApC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2FAAoC;;;;;;;;;KAAA;IACpC;qCAAA;;;;;;;;;;;wFAAuC;KAAA;;;;;;;;;;;;;;;;"
-}
