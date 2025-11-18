@@ -85,7 +85,15 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/markets" element={<MarketList />} />
             <Route path="/markets/:id" element={<MarketDetail />} />
-            <Route path="/portfolio" element={<Portfolio />} />
+            <Route
+              path="/portfolio"
+              element={
+                <Portfolio
+                  isConnected={isConnected}
+                  onConnect={handleConnect}
+                />
+              }
+            />
           </Routes>
         </main>
       </div>

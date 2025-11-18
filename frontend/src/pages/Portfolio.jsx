@@ -4,7 +4,7 @@ import './Portfolio.css';
 import Button from '../components/common/Button';
 import PrivacyBadge from '../components/market/PrivacyBadge';
 
-export default function Portfolio() {
+export default function Portfolio({ isConnected, onConnect }) {
   const [activeTab, setActiveTab] = useState('active');
 
   // Mock portfolio data
@@ -35,6 +35,28 @@ export default function Portfolio() {
   const totalValue = positions.reduce((sum, p) => sum + p.currentValue, 0);
   const totalReturn = totalValue - totalInvested;
   const returnPercentage = ((totalReturn / totalInvested) * 100).toFixed(2);
+
+  if (!isConnected) {
+    return (
+      <div className="portfolio-page">
+        <div className="portfolio-header">
+          <h1>My Portfolio</h1>
+          <div className="wallet-status">
+            <span>Not connected</span>
+          </div>
+        </div>
+
+        <div className="empty-state">
+          <p>Please connect your Lace wallet to view your portfolio.</p>
+          <div>
+            <button className="btn btn-primary btn-medium" onClick={onConnect}>
+              Connect Wallet
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="portfolio-page">
