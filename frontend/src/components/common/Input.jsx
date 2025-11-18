@@ -8,7 +8,8 @@ export default function Input({
   placeholder,
   error,
   prefix,
-  suffix
+  suffix,
+  ...rest
 }) {
   return (
     <div className="input-wrapper">
@@ -21,6 +22,7 @@ export default function Input({
           onChange={onChange}
           placeholder={placeholder}
           className={`input ${error ? 'input-error' : ''}`}
+          {...rest}
         />
         {suffix && <span className="input-suffix">{suffix}</span>}
       </div>

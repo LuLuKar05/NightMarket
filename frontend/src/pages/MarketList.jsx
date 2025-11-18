@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import './MarketList.css';
 import MarketCard from '../components/market/MarketCard';
 import Button from '../components/common/Button';
+import CreateMarketModal from '../components/market/CreateMarketModal';
 import { getMarkets, getMarketStats } from '../services/api';
 
-export default function MarketList() {
+export default function MarketList({ isConnected, walletAddress, onConnect }) {
   const [markets, setMarkets] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,6 +13,7 @@ export default function MarketList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedStatus, setSelectedStatus] = useState('active');
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const categories = ['All', 'Crypto', 'Technology', 'Science', 'Climate', 'Politics', 'Finance', 'Sports', 'Entertainment'];
   const statuses = ['active', 'resolved', 'closed'];
@@ -69,6 +71,25 @@ export default function MarketList() {
     totalTraders: markets.reduce((sum, m) => sum + (m.traders || 0), 0),
   };
 
+  const handleCreateMarket = () => {
+    if (!isConnected) {
+      alert('Please connect your wallet to create a market');
+      if (onConnect) {
+        onConnect();
+      }
+      return;
+    }
+    setShowCreateModal(true);
+  };
+
+  const handleMarketCreated = (newMarket) => {
+    // Add new market to the list
+    setMarkets(prev => [newMarket, ...prev]);
+    // Refresh stats
+    fetchStats();
+    alert(`Market "${newMarket.question}" created successfully!`);
+  };
+
   return (
     <div className="market-list-page">
       <div className="market-list-header">
@@ -76,8 +97,15 @@ export default function MarketList() {
           <h1>Prediction Markets</h1>
           <p className="page-description">Trade on future events with privacy-preserving predictions</p>
         </div>
-        <Button variant="primary">+ Create Market</Button>
+        <Button variant="primary" onClick={handleCreateMarket}>+ Create Market</Button>
       </div>
+
+      <CreateMarketModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        walletAddress={walletAddress}
+        onMarketCreated={handleMarketCreated}
+      />
 
       <div className="market-filters">
         <input

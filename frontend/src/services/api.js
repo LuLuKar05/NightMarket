@@ -68,6 +68,13 @@ export async function getMarketStats() {
 }
 
 /**
+ * Get available market categories
+ */
+export async function getMarketCategories() {
+    return apiFetch('/api/markets/categories');
+}
+
+/**
  * Create a new market
  */
 export async function createMarket(marketData) {
@@ -195,6 +202,7 @@ export default {
     getMarkets,
     getMarketById,
     getMarketStats,
+    getMarketCategories,
     createMarket,
     // Positions
     getPositions,
