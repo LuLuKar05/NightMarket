@@ -2,6 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+
+// Port Configuration
+// Backend runs on port 3000
+// Frontend (Vite) runs on port 5173
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -10,7 +14,7 @@ app.use(express.json());     // Parse incoming JSON payloads
 
 // Basic Route
 app.get('/', (req, res) => {
-    res.json({ 
+    res.json({
         message: "NightMarket Backend API",
         network: process.env.MIDNIGHT_NETWORK || 'testnet',
         status: 'running'
@@ -19,7 +23,7 @@ app.get('/', (req, res) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-    res.json({ 
+    res.json({
         status: 'healthy',
         timestamp: new Date().toISOString(),
         network: process.env.MIDNIGHT_NETWORK
@@ -34,7 +38,7 @@ app.get('/health', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error:', err.stack);
-    res.status(500).json({ 
+    res.status(500).json({
         error: 'Internal server error',
         message: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
