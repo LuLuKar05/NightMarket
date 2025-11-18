@@ -32,7 +32,11 @@ function App() {
   };
 
   const handleDisconnect = async () => {
-    await disconnectWallet();
+    try {
+      await disconnectWallet();
+    } catch (err) {
+      console.error('Failed to disconnect wallet:', err.message);
+    }
   };
 
   return (
@@ -69,7 +73,7 @@ function App() {
                   onClick={handleDisconnect}
                   disabled={isLoading}
                 >
-                  Disconnect
+                  {isLoading ? 'Disconnecting...' : 'Disconnect'}
                 </button>
               </div>
             ) : (
