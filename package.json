@@ -4,12 +4,12 @@
     "description": "Privacy-focused prediction market on Midnight blockchain",
     "private": true,
     "scripts": {
-        "compile:compliance": "compact compile contracts/src/CompliancePortal.compact src/managed/CompliancePortal",
-        "compile:position": "compact compile contracts/src/PositionManager.compact src/managed/PositionManager",
-        "compile:oracle": "compact compile contracts/src/ResolutionOracle.compact src/managed/ResolutionOracle",
-        "compile:vault": "compact compile contracts/src/ShieldedVault.compact src/managed/ShieldedVault",
-        "compile:kyc": "compact compile contracts/src/ZKKYCVerifier.compact src/managed/ZKKYCVerifier",
-        "compile:factory": "compact compile contracts/src/PredictionMarketFactory.compact src/managed/PredictionMarketFactory",
+        "compile:compliance": "compact compile contracts/src/CompliancePortal.compact contracts/src/managed/CompliancePortal",
+        "compile:position": "compact compile contracts/src/PositionManager.compact contracts/src/managed/PositionManager",
+        "compile:oracle": "compact compile contracts/src/ResolutionOracle.compact contracts/src/managed/ResolutionOracle",
+        "compile:vault": "compact compile contracts/src/ShieldedVault.compact contracts/src/managed/ShieldedVault",
+        "compile:kyc": "compact compile contracts/src/ZKKYCVerifier.compact contracts/src/managed/ZKKYCVerifier",
+        "compile:factory": "compact compile contracts/src/PredictionMarketFactory.compact contracts/src/managed/PredictionMarketFactory",
         "compile:all": "npm run compile:compliance && npm run compile:position && npm run compile:oracle && npm run compile:vault && npm run compile:kyc && npm run compile:factory",
         "compile": "npm run compile:all",
         "contracts": "npm run compile:all"
