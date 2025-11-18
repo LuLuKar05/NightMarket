@@ -257,8 +257,13 @@ router.delete('/:id', (req, res) => {
             closedAt: new Date().toISOString()
         };
 
-        // Delete the bet
-        deleteBet(betId);
+        // Mark bet as closed instead of deleting
+        updateBet(betId, {
+            status: 'closed',
+            closedValue: finalValue,
+            closingOdds: bet.outcome === 'YES' ? market?.yesOdds : market?.noOdds,
+            closedAt: new Date().toISOString()
+        });
 
         // Update market traders count
         if (market) {

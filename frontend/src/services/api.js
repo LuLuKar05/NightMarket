@@ -157,6 +157,39 @@ export async function getBetStats() {
     return apiFetch('/api/bets/stats/summary');
 }
 
+// ============================================
+// PORTFOLIO API
+// ============================================
+
+/**
+ * Get portfolio overview with active positions and stats
+ * @param {string} walletAddress - User wallet address
+ * @returns {Promise<Object>} { success, data: { walletAddress, stats, positions }, message }
+ */
+export async function getPortfolio(walletAddress) {
+    return apiFetch(`/api/portfolio/${walletAddress}`);
+}
+
+/**
+ * Get portfolio history with closed positions
+ * @param {string} walletAddress - User wallet address
+ * @param {Object} params - Query parameters
+ * @param {string} params.outcome - Filter by outcome ("YES" or "NO")
+ * @returns {Promise<Object>} { success, data: { walletAddress, stats, history }, message }
+ */
+export async function getPortfolioHistory(walletAddress, params = {}) {
+    const queryParams = new URLSearchParams();
+
+    if (params.outcome) {
+        queryParams.append('outcome', params.outcome);
+    }
+
+    const queryString = queryParams.toString();
+    const endpoint = `/api/portfolio/${walletAddress}/history${queryString ? `?${queryString}` : ''}`;
+
+    return apiFetch(endpoint);
+}
+
 export default {
     // Markets
     getMarkets,
@@ -171,4 +204,7 @@ export default {
     getBetById,
     closeBet,
     getBetStats,
+    // Portfolio
+    getPortfolio,
+    getPortfolioHistory,
 };

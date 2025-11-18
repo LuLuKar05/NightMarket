@@ -3,22 +3,31 @@ import { Link } from 'react-router-dom';
 import './Portfolio.css';
 import Button from '../components/common/Button';
 import PrivacyBadge from '../components/market/PrivacyBadge';
-import { getBets } from '../services/api';
+import { getPortfolio, getPortfolioHistory, closeBet } from '../services/api';
 
 export default function Portfolio({ isConnected, walletAddress, onConnect }) {
   const [activeTab, setActiveTab] = useState('active');
-  const [bets, setBets] = useState([]);
+  const [portfolioData, setPortfolioData] = useState(null);
+  const [historyData, setHistoryData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [closingBet, setClosingBet] = useState(null);
 
-  // Fetch bets when connected
+  // Fetch portfolio when connected
   useEffect(() => {
     if (isConnected && walletAddress) {
-      fetchBets();
+      fetchPortfolio();
     }
   }, [isConnected, walletAddress]);
 
-  const fetchBets = async () => {
+  // Fetch history when switching to history tab
+  useEffect(() => {
+    if (activeTab === 'history' && isConnected && walletAddress && !historyData) {
+      fetchHistory();
+    }
+  }, [activeTab, isConnected, walletAddress]);
+
+  const fetchPortfolio = async () => {
     if (!walletAddress) {
       return;
     }
@@ -27,24 +36,74 @@ export default function Portfolio({ isConnected, walletAddress, onConnect }) {
       setLoading(true);
       setError(null);
       
-      const response = await getBets({ wallet: walletAddress });
+      const response = await getPortfolio(walletAddress);
       
       if (response.success) {
-        setBets(response.data);
+        setPortfolioData(response.data);
       }
     } catch (err) {
-      console.error('Error fetching bets:', err);
-      setError(err.message || 'Failed to load bets');
+      console.error('Error fetching portfolio:', err);
+      setError(err.message || 'Failed to load portfolio');
     } finally {
       setLoading(false);
     }
   };
 
-  // Calculate totals from bets
-  const totalInvested = bets.reduce((sum, bet) => sum + bet.amount, 0);
-  const totalValue = bets.reduce((sum, bet) => sum + bet.currentValue, 0);
-  const totalReturn = totalValue - totalInvested;
-  const returnPercentage = totalInvested > 0 ? ((totalReturn / totalInvested) * 100).toFixed(2) : 0;
+  const fetchHistory = async () => {
+    if (!walletAddress) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await getPortfolioHistory(walletAddress);
+      
+      if (response.success) {
+        setHistoryData(response.data);
+      }
+    } catch (err) {
+      console.error('Error fetching history:', err);
+      setError(err.message || 'Failed to load history');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClosePosition = async (betId) => {
+    if (!confirm('Are you sure you want to close this position?')) {
+      return;
+    }
+
+    try {
+      setClosingBet(betId);
+      const response = await closeBet(betId);
+      
+      if (response.success) {
+        // Refresh portfolio data
+        await fetchPortfolio();
+        alert(`Position closed successfully! Final value: ${response.data.finalValue} DUST`);
+      }
+    } catch (err) {
+      console.error('Error closing position:', err);
+      alert(err.message || 'Failed to close position');
+    } finally {
+      setClosingBet(null);
+    }
+  };
+
+  // Get stats from portfolio data
+  const stats = portfolioData?.stats || {
+    totalInvested: 0,
+    totalCurrentValue: 0,
+    totalAbsoluteReturn: 0,
+    totalReturnPercentage: 0,
+    activePositionsCount: 0
+  };
+
+  const positions = portfolioData?.positions || [];
+  const history = historyData?.history || [];
 
   if (!isConnected) {
     return (
@@ -82,9 +141,9 @@ export default function Portfolio({ isConnected, walletAddress, onConnect }) {
           <div className="stat-icon">$</div>
           <div className="stat-content">
             <span className="stat-label">TOTAL VALUE</span>
-            <span className="stat-number">{totalValue} DUST</span>
-            <span className={`stat-change ${totalReturn >= 0 ? 'positive' : 'negative'}`}>
-              {totalReturn >= 0 ? '+' : ''}{totalReturn.toFixed(2)} DUST ({returnPercentage}%)
+            <span className="stat-number">{stats.totalCurrentValue.toFixed(2)} DUST</span>
+            <span className={`stat-change ${stats.totalAbsoluteReturn >= 0 ? 'positive' : 'negative'}`}>
+              {stats.totalAbsoluteReturn >= 0 ? '+' : ''}{stats.totalAbsoluteReturn.toFixed(2)} DUST ({stats.totalReturnPercentage}%)
             </span>
           </div>
         </div>
@@ -92,14 +151,21 @@ export default function Portfolio({ isConnected, walletAddress, onConnect }) {
           <div className="stat-icon">Σ</div>
           <div className="stat-content">
             <span className="stat-label">TOTAL INVESTED</span>
-            <span className="stat-number">{totalInvested} DUST</span>
+            <span className="stat-number">{stats.totalInvested.toFixed(2)} DUST</span>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-icon">#</div>
           <div className="stat-content">
             <span className="stat-label">ACTIVE POSITIONS</span>
-            <span className="stat-number">{bets.length}</span>
+            <span className="stat-number">{stats.activePositionsCount}</span>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon">↑</div>
+          <div className="stat-content">
+            <span className="stat-label">WINNING</span>
+            <span className="stat-number positive">{stats.winningPositions || 0}</span>
           </div>
         </div>
       </div>
@@ -118,7 +184,7 @@ export default function Portfolio({ isConnected, walletAddress, onConnect }) {
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '3rem', color: '#888' }}>
-          Loading your bets...
+          Loading your portfolio...
         </div>
       ) : (
         <div className="portfolio-content">
@@ -127,73 +193,131 @@ export default function Portfolio({ isConnected, walletAddress, onConnect }) {
               className={`tab ${activeTab === 'active' ? 'active' : ''}`}
               onClick={() => setActiveTab('active')}
             >
-              Active Bets ({bets.length})
+              Active Positions ({stats.activePositionsCount})
             </button>
             <button
               className={`tab ${activeTab === 'history' ? 'active' : ''}`}
               onClick={() => setActiveTab('history')}
             >
-              History
+              History ({historyData?.stats?.totalPositions || 0})
             </button>
           </div>
 
           <div className="positions-list">
-            {bets.length === 0 ? (
-              <div className="empty-state" style={{ padding: '3rem', textAlign: 'center' }}>
-                <p>No bets found. Start trading on prediction markets!</p>
-                <Link to="/markets">
-                  <Button variant="primary">Browse Markets</Button>
-                </Link>
-              </div>
-            ) : (
-              bets.map(bet => {
-                const gainLoss = bet.currentValue - bet.amount;
-                const gainLossPercentage = ((gainLoss / bet.amount) * 100).toFixed(2);
-
-                return (
-                  <div key={bet.id} className="position-card">
+            {activeTab === 'active' ? (
+              positions.length === 0 ? (
+                <div className="empty-state" style={{ padding: '3rem', textAlign: 'center' }}>
+                  <p>No active positions. Start trading on prediction markets!</p>
+                  <Link to="/markets">
+                    <Button variant="primary">Browse Markets</Button>
+                  </Link>
+                </div>
+              ) : (
+                positions.map(position => (
+                  <div key={position.id} className="position-card">
                     <div className="position-header">
-                      <Link to={`/markets/${bet.marketId}`} className="position-title">
-                        Market: {bet.marketId}
+                      <Link to={`/markets/${position.marketId}`} className="position-title">
+                        {position.marketQuestion}
                       </Link>
-                      <PrivacyBadge isPrivate={bet.isPrivate} />
+                      <PrivacyBadge isPrivate={position.isPrivate} />
                     </div>
 
                     <div className="position-details">
                       <div className="position-outcome">
-                        <span className={`outcome-badge outcome-${bet.outcome.toLowerCase()}`}>
-                          {bet.outcome}
+                        <span className={`outcome-badge outcome-${position.outcome.toLowerCase()}`}>
+                          {position.outcome}
                         </span>
-                        <span className="shares-count">{bet.shares.toFixed(2)} shares @ {bet.odds}%</span>
+                        <span className="shares-count">
+                          {position.shares.toFixed(2)} shares @ {position.currentOdds}%
+                        </span>
                       </div>
 
                       <div className="position-stats">
                         <div className="position-stat">
                           <span className="stat-label">Invested</span>
-                          <span className="stat-value">{bet.amount} DUST</span>
+                          <span className="stat-value">{position.invested.toFixed(2)} DUST</span>
                         </div>
                         <div className="position-stat">
                           <span className="stat-label">Current Value</span>
-                          <span className="stat-value">{bet.currentValue} DUST</span>
+                          <span className="stat-value">{position.currentValue.toFixed(2)} DUST</span>
                         </div>
                         <div className="position-stat">
                           <span className="stat-label">Return</span>
-                          <span className={`stat-value ${gainLoss >= 0 ? 'positive' : 'negative'}`}>
-                            {gainLoss >= 0 ? '+' : ''}{gainLoss.toFixed(2)} DUST ({gainLossPercentage}%)
+                          <span className={`stat-value ${position.absoluteReturn >= 0 ? 'positive' : 'negative'}`}>
+                            {position.absoluteReturn >= 0 ? '+' : ''}{position.absoluteReturn.toFixed(2)} DUST ({position.returnPercentage}%)
                           </span>
                         </div>
                       </div>
                     </div>
 
                     <div className="position-actions">
-                      <Link to={`/markets/${bet.marketId}`}>
+                      <Link to={`/markets/${position.marketId}`}>
                         <Button variant="ghost" size="small">View Market</Button>
                       </Link>
-                      <Button variant="danger" size="small">Close Position</Button>
+                      <Button 
+                        variant="danger" 
+                        size="small"
+                        onClick={() => handleClosePosition(position.id)}
+                        disabled={closingBet === position.id}
+                      >
+                        {closingBet === position.id ? 'Closing...' : 'Close Position'}
+                      </Button>
                     </div>
                   </div>
-                );
-              })
+                ))
+              )
+            ) : (
+              // History tab
+              history.length === 0 ? (
+                <div className="empty-state" style={{ padding: '3rem', textAlign: 'center' }}>
+                  <p>No closed positions yet.</p>
+                </div>
+              ) : (
+                history.map(position => (
+                  <div key={position.id} className="position-card closed">
+                    <div className="position-header">
+                      <Link to={`/markets/${position.marketId}`} className="position-title">
+                        {position.marketQuestion}
+                      </Link>
+                      <PrivacyBadge isPrivate={position.isPrivate} />
+                    </div>
+
+                    <div className="position-details">
+                      <div className="position-outcome">
+                        <span className={`outcome-badge outcome-${position.outcome.toLowerCase()}`}>
+                          {position.outcome}
+                        </span>
+                        <span className="shares-count">
+                          {position.shares.toFixed(2)} shares @ {position.closingOdds || 'N/A'}%
+                        </span>
+                      </div>
+
+                      <div className="position-stats">
+                        <div className="position-stat">
+                          <span className="stat-label">Invested</span>
+                          <span className="stat-value">{position.invested.toFixed(2)} DUST</span>
+                        </div>
+                        <div className="position-stat">
+                          <span className="stat-label">Final Value</span>
+                          <span className="stat-value">{position.finalValue.toFixed(2)} DUST</span>
+                        </div>
+                        <div className="position-stat">
+                          <span className="stat-label">Return</span>
+                          <span className={`stat-value ${position.absoluteReturn >= 0 ? 'positive' : 'negative'}`}>
+                            {position.absoluteReturn >= 0 ? '+' : ''}{position.absoluteReturn.toFixed(2)} DUST ({position.returnPercentage}%)
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="position-meta">
+                        <span className="closed-date">
+                          Closed: {new Date(position.closedAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )
             )}
           </div>
         </div>
