@@ -2,13 +2,13 @@ pragma language_version 0.18.0;
 
 import CompactStandardLibrary;
 
-witness kyc_proof(): Opaque<"kyc_proof">;
+witness kyc_proof(): Opaque<"Uint8Array">;
 
 export circuit verify_kyc_status(): Boolean {
   return verify_kyc(kyc_proof());
 }
 
-circuit verify_kyc(proof: Opaque<"kyc_proof">): Boolean {
+circuit verify_kyc(proof: Opaque<"Uint8Array">): Boolean {
   // Placeholder for actual ZKP logic
   return true;
 }

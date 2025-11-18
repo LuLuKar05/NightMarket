@@ -40,6 +40,9 @@ artifacts/
 cache/
 build/
 
+### Managed contracts (compiled outputs)
+contracts/src/managed/
+
 ### Secrets / keys
 *.pem
 *.key

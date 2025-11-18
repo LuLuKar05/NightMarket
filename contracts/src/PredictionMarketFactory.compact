@@ -27,11 +27,11 @@ struct Market {
 }
 
 export ledger market_count: Counter;
-export ledger markets: Vector<100, Market>;
+export ledger markets: List<Market>;
 export ledger factory_owner: Bytes<32>;
 
 witness sender(): Bytes<32>;
-witness kyc_proof(): Opaque<"kyc_proof">;
+witness kyc_proof(): Opaque<"Uint8Array">; // Only "string" and "Uint8Array" are supported opaque types
 
 export circuit create_market(
   question: Opaque<"string">,
@@ -42,31 +42,32 @@ export circuit create_market(
 ): Uint<64> {
   assert(verify_kyc(kyc_proof()), "Invalid KYC proof");
   market_count.increment(1);
-  let market_id = market_count as Uint<64>;
-  let new_market: Market = Market{
+  const market_id = market_count as Uint<64>;
+  const new_market: Market = Market {
     market_id,
-    question,
-    description,
-    end_time,
-    resolution_time,
-    sender(),
+    disclose(question),
+    disclose(description),
+    disclose(end_time),
+    disclose(resolution_time),
+    disclose(sender()),
     false,
     Outcome.UNDECIDED,
     0,
     0,
     0,
-    compliance_rules
+    disclose(compliance_rules)
   };
-  markets[market_id - 1] = new_market;
+  markets.pushFront(new_market); // Add new market to the front of the list
   return market_id;
 }
 
-export circuit get_market_details(market_id: Uint<64>): Market {
-  assert(market_id > 0 && market_id <= market_count as Uint<64>, "Market not found");
-  return markets[market_id - 1];
+export circuit get_most_recent_market(): Market {
+  const maybe_market = markets.head();
+  assert(maybe_market.is_some, "No market found");
+  return maybe_market.value;
 }
 
-circuit verify_kyc(proof: Opaque<"kyc_proof">): Boolean {
+circuit verify_kyc(proof: Opaque<"Uint8Array">): Boolean {
   // Placeholder for actual ZK-KYC verification logic
   return true;
 }
