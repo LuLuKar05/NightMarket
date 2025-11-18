@@ -7,7 +7,6 @@ export ledger spent_nullifiers: Set<Bytes<32>>;
 
 witness findAuthPath(commitment: Bytes<32>): MerkleTreePath<10, Bytes<32>>;
 witness secretKey(): Bytes<32>;
-witness value(): Uint<64>;
 
 export circuit deposit(commitment: Bytes<32>): [] {
   balance_commitments.insert(disclose(commitment));

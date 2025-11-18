@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.cjs",
+  "sourceRoot": "../../../../",
+  "sources": ["contracts/src/CompliancePortal.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;;;;MAMA,AAAA,gBAGC;;;;;;;;;;;;;;;;;;;;;;OAAA;;;GAKC;EAdF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;GAcE;EAVF,AAAA,mBAAiD;;0DAAjD,gBAAiD;;;;;;;GAAA;EAEjD,AAAA,mBAGC;;;GAAA;EAED,AAAA,oBAGC,CAHyB,OAA2B,kBAGpD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+}

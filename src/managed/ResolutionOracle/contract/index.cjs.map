@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.cjs",
+  "sourceRoot": "../../../../",
+  "sources": ["contracts/src/ResolutionOracle.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;;;;;;;;;;MAUA,AAAA,cAIC;;;;;;;;;;;;;;;;;;;;;;OAAA;;;GAKC;EAnBF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAIA;;;;;;;;;;uDAAsD;;;;;;;GAepD;EAbF,AAAA,SAA4B;;0DAA5B,MAA4B;;;;;;;;;;;;;;GAAA;EAC5B,AAAA,UAA2B;;0DAA3B,OAA2B;;;;;;;;;;;;;;GAAA;EAC3B,AAAA,YAA8B;;0DAA9B,SAA8B;;;;;;;;;;;;;;GAAA;EAE9B,AAAA,iBAIC;;;;;;;;UADC,KAAe;UAAf,KAAe;IAAf;;;;;;;;;;yGAAA,KAAe;;;yGAAf,KAAe;;;sDAAA;;GAChB;EAED,AAAA,uBAGC,CAH4B,MAAe,kBAG3C;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAfD;;;;;uCAAA;;;;;;;;;;;;;;;;0FAAsD;;;;;;uCAAtD;;;;;;;;;;;;0FAAsD;;;;;;;;;;;;;;uCAAtD;;;;;;;;;;;;;;;0FAAsD;;;;;;;;;;;;;;uCAAtD;;;;;;;;;;;;;;;;;0FAAsD;;;;;;;;;KAAA;;;;;;;;;;;;;;;;;;"
+}

@@ -1,0 +1,237 @@
+{
+  "circuits": [
+    {
+      "name": "create_market",
+      "pure": false,
+      "arguments": [
+        {
+          "name": "question",
+          "type": {
+            "type-name": "Opaque",
+            "tsType": "string"
+          }
+        },
+        {
+          "name": "description",
+          "type": {
+            "type-name": "Opaque",
+            "tsType": "string"
+          }
+        },
+        {
+          "name": "end_time",
+          "type": {
+            "type-name": "Uint",
+            "maxval": 18446744073709551615
+          }
+        },
+        {
+          "name": "resolution_time",
+          "type": {
+            "type-name": "Uint",
+            "maxval": 18446744073709551615
+          }
+        },
+        {
+          "name": "compliance_rules",
+          "type": {
+            "type-name": "Struct",
+            "name": "ComplianceRules",
+            "elements": [
+              {
+                "name": "allowed_jurisdictions",
+                "type": {
+                  "type-name": "Vector",
+                  "length": 10,
+                  "type": {
+                    "type-name": "Opaque",
+                    "tsType": "string"
+                  }
+                }
+              },
+              {
+                "name": "min_kyc_level",
+                "type": {
+                  "type-name": "Uint",
+                  "maxval": 255
+                }
+              },
+              {
+                "name": "max_position_size",
+                "type": {
+                  "type-name": "Uint",
+                  "maxval": 18446744073709551615
+                }
+              },
+              {
+                "name": "requires_kyc",
+                "type": {
+                  "type-name": "Boolean"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "result-type": {
+        "type-name": "Uint",
+        "maxval": 18446744073709551615
+      }
+    },
+    {
+      "name": "get_most_recent_market",
+      "pure": false,
+      "arguments": [
+      ],
+      "result-type": {
+        "type-name": "Struct",
+        "name": "Market",
+        "elements": [
+          {
+            "name": "market_id",
+            "type": {
+              "type-name": "Uint",
+              "maxval": 18446744073709551615
+            }
+          },
+          {
+            "name": "question",
+            "type": {
+              "type-name": "Opaque",
+              "tsType": "string"
+            }
+          },
+          {
+            "name": "description",
+            "type": {
+              "type-name": "Opaque",
+              "tsType": "string"
+            }
+          },
+          {
+            "name": "end_time",
+            "type": {
+              "type-name": "Uint",
+              "maxval": 18446744073709551615
+            }
+          },
+          {
+            "name": "resolution_time",
+            "type": {
+              "type-name": "Uint",
+              "maxval": 18446744073709551615
+            }
+          },
+          {
+            "name": "market_creator",
+            "type": {
+              "type-name": "Bytes",
+              "length": 32
+            }
+          },
+          {
+            "name": "is_resolved",
+            "type": {
+              "type-name": "Boolean"
+            }
+          },
+          {
+            "name": "outcome",
+            "type": {
+              "type-name": "Enum",
+              "name": "Outcome",
+              "elements": [
+                "UNDECIDED",
+                "YES",
+                "NO"
+              ]
+            }
+          },
+          {
+            "name": "total_liquidity",
+            "type": {
+              "type-name": "Uint",
+              "maxval": 18446744073709551615
+            }
+          },
+          {
+            "name": "yes_position_count",
+            "type": {
+              "type-name": "Uint",
+              "maxval": 18446744073709551615
+            }
+          },
+          {
+            "name": "no_position_count",
+            "type": {
+              "type-name": "Uint",
+              "maxval": 18446744073709551615
+            }
+          },
+          {
+            "name": "compliance_rules",
+            "type": {
+              "type-name": "Struct",
+              "name": "ComplianceRules",
+              "elements": [
+                {
+                  "name": "allowed_jurisdictions",
+                  "type": {
+                    "type-name": "Vector",
+                    "length": 10,
+                    "type": {
+                      "type-name": "Opaque",
+                      "tsType": "string"
+                    }
+                  }
+                },
+                {
+                  "name": "min_kyc_level",
+                  "type": {
+                    "type-name": "Uint",
+                    "maxval": 255
+                  }
+                },
+                {
+                  "name": "max_position_size",
+                  "type": {
+                    "type-name": "Uint",
+                    "maxval": 18446744073709551615
+                  }
+                },
+                {
+                  "name": "requires_kyc",
+                  "type": {
+                    "type-name": "Boolean"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "witnesses": [
+    {
+      "name": "sender",
+      "arguments": [
+      ],
+      "result type": {
+        "type-name": "Bytes",
+        "length": 32
+      }
+    },
+    {
+      "name": "kyc_proof",
+      "arguments": [
+      ],
+      "result type": {
+        "type-name": "Opaque",
+        "tsType": "Uint8Array"
+      }
+    }
+  ],
+  "contracts": [
+  ]
+}

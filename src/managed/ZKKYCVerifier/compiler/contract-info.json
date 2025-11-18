@@ -1,0 +1,26 @@
+{
+  "circuits": [
+    {
+      "name": "verify_kyc_status",
+      "pure": false,
+      "arguments": [
+      ],
+      "result-type": {
+        "type-name": "Boolean"
+      }
+    }
+  ],
+  "witnesses": [
+    {
+      "name": "kyc_proof",
+      "arguments": [
+      ],
+      "result type": {
+        "type-name": "Opaque",
+        "tsType": "Uint8Array"
+      }
+    }
+  ],
+  "contracts": [
+  ]
+}

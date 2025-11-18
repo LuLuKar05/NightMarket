@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.cjs",
+  "sourceRoot": "../../../../",
+  "sources": ["contracts/src/ShieldedVault.compact", "compiler/standard-library.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;;;;;;;MAUA,AAAA,OAEC;;;;;cAFsB,YAAqB;;;;;;;;;;;;;;;;;;yCAArB,YAAqB;;;;;;;oEAArB,YAAqB;;;OAE3C;MAED,AAAA,QAQC;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;;GAQC;EA9BF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAIA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;uDAAqE;IACrE;;;;;;;;;;uDAA+C;;;;;;;GAyB7C;ECgBF,AAAA,iBAAgC;mEAAA;;;EAEhC,AAAA,kBAAiC;qEAAA;;;EAAjC,AAAA,kBAAiC;oEAAA;;;EAEjC,AAAA,sBAAkC;yDAAA;;;EAgClC,AAAA,sBAAyC;;;;;;;oFAG8E;8BAChG;;EAYvB,AAAA,2BACE,mBACA;UAEM,SAAO,oBAAkB,oBAAkB;UAC3C,UAAQ;oBAAkB;oBAAsB;kCACd,QAAM;;EDjGhD,AAAA,eAA2E,4BAAtD,YAAqB;;0DAA1C,YAA2E;uEAAtD,YAAqB;;;;;;;;;;;;;;GAAiC;EAC3E,AAAA,YAA+B;;0DAA/B,SAA+B;;;;;;;;;;;;;;GAAA;EAE/B,AAAA,UAEC,4BAFsB,YAAqB;IAC1C;;;;;;;;;;;;;;;;;;;;;;;;2GAAoC,YAAU;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;sDAA3B;;GACpB;EAED,AAAA,WAQC;UAPO,IAAgB;UAChB,UAAgD;;8DAAL,IAAE;QAC5C,KAAmB;gEAA6C,UAAQ;qDAAxE;;;;;;;;;;;;;;;;;0JAAA,KAAmB;;;;wGAAA;;UACpB,KAA6B,qBAAJ,IAAE;qDACzB;;;;;;;;;;;0JAAwB,KAAG;;;;wGAAX;;IACxB;;;;;;;;;;yGAAwB,KAAG;;;;;sDAAX;;GAEjB;EAED,AAAA,YAEC,CAFiB,IAAa;;mCAC8C,IAAE;GAC9E;EAED,AAAA,YAEC,CAFiB,IAAa;;mCAC6C,IAAE;GAC7E;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IA1BD;;;;;uCAAA;;;;;;;;;;;;;;;;;;;;;;0FAAqE;;;;;;;;;;;;;;uCAArE;;;;;;;;;;;;;;;;;;;;;0FAAqE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;KAAA;IACrE;;;;;uCAAA;;;;;;;;;;;;;;;;0FAA+C;;;;;;wCAA/C;;;;;;;;;;;;2FAA+C;;;;;;;;;;;;;;uCAA/C;;;;;;;;;;;;;;;0FAA+C;;;;;;;;;KAAA;;;;;;;;;;;;;;;;"
+}

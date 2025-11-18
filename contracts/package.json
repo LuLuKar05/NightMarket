@@ -1,0 +1,39 @@
+{
+    "name": "@nightmarket/contracts",
+    "version": "1.0.0",
+    "description": "Witness implementations for NightMarket Compact contracts",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.js"
+        },
+        "./witnesses": {
+            "types": "./dist/witnesses.d.ts",
+            "import": "./dist/witnesses.js",
+            "require": "./dist/witnesses.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "type-check": "tsc --noEmit"
+    },
+    "keywords": [
+        "midnight",
+        "compact",
+        "witnesses",
+        "zero-knowledge"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "@midnight-ntwrk/compact-runtime": "latest"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
+}
