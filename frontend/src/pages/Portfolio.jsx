@@ -1,40 +1,79 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Portfolio.css';
 import Button from '../components/common/Button';
 import PrivacyBadge from '../components/market/PrivacyBadge';
+// import { getPositions } from '../services/api'; // TODO: Uncomment when positions endpoint is ready
 
 export default function Portfolio({ isConnected, onConnect }) {
   const [activeTab, setActiveTab] = useState('active');
+  const [positions, setPositions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Mock portfolio data
-  const positions = [
-    {
-      id: 1,
-      marketId: 1,
-      question: 'Will Bitcoin reach $100,000 by end of 2025?',
-      outcome: 'YES',
-      shares: 750,
-      invested: 500,
-      currentValue: 620,
-      isPrivate: true
-    },
-    {
-      id: 2,
-      marketId: 2,
-      question: 'Will Ethereum implement sharding in Q1 2026?',
-      outcome: 'NO',
-      shares: 300,
-      invested: 300,
-      currentValue: 270,
-      isPrivate: false
+  // TODO: Replace with real API call when positions endpoint is ready
+  // For now, using mock data
+  useEffect(() => {
+    if (isConnected) {
+      // fetchPositions();
+      loadMockPositions();
     }
-  ];
+  }, [isConnected]);
+
+  const loadMockPositions = () => {
+    // Mock portfolio data (will be replaced with API call)
+    const mockPositions = [
+      {
+        id: 1,
+        marketId: 1,
+        question: 'Will Bitcoin reach $100,000 by end of 2025?',
+        outcome: 'YES',
+        shares: 750,
+        invested: 500,
+        currentValue: 620,
+        isPrivate: true
+      },
+      {
+        id: 2,
+        marketId: 2,
+        question: 'Will Ethereum implement sharding in Q1 2026?',
+        outcome: 'NO',
+        shares: 300,
+        invested: 300,
+        currentValue: 270,
+        isPrivate: false
+      }
+    ];
+    setPositions(mockPositions);
+  };
+
+  /* TODO: Uncomment when positions endpoint is ready
+  const fetchPositions = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Get wallet address from props or context
+      const walletAddress = 'USER_WALLET_ADDRESS'; // Replace with actual wallet address
+      
+      const response = await getPositions(walletAddress);
+      
+      if (response.success) {
+        setPositions(response.data);
+      }
+    } catch (err) {
+      console.error('Error fetching positions:', err);
+      setError(err.message || 'Failed to load positions');
+    } finally {
+      setLoading(false);
+    }
+  };
+  */
 
   const totalInvested = positions.reduce((sum, p) => sum + p.invested, 0);
   const totalValue = positions.reduce((sum, p) => sum + p.currentValue, 0);
   const totalReturn = totalValue - totalInvested;
-  const returnPercentage = ((totalReturn / totalInvested) * 100).toFixed(2);
+  const returnPercentage = totalInvested > 0 ? ((totalReturn / totalInvested) * 100).toFixed(2) : 0;
 
   if (!isConnected) {
     return (

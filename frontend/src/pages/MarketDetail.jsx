@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './MarketDetail.css';
 import Button from '../components/common/Button';
@@ -7,29 +7,38 @@ import Modal from '../components/common/Modal';
 import PrivacyBadge from '../components/market/PrivacyBadge';
 import OddsBar from '../components/market/OddsBar';
 import Countdown from '../components/market/Countdown';
+import { getMarketById } from '../services/api';
 
 export default function MarketDetail() {
   const { id } = useParams();
+  const [market, setMarket] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [betAmount, setBetAmount] = useState('');
   const [showBetModal, setShowBetModal] = useState(false);
   const [selectedOutcome, setSelectedOutcome] = useState(null);
 
-  // Mock market data
-  const market = {
-    id: parseInt(id),
-    question: 'Will Bitcoin reach $100,000 by end of 2025?',
-    description: 'This market will resolve to YES if Bitcoin (BTC) reaches or exceeds $100,000 USD on any major exchange by December 31, 2025, 23:59:59 UTC. Otherwise, it will resolve to NO.',
-    category: 'Crypto',
-    volume: 124500,
-    traders: 342,
-    liquidity: 250000,
-    status: 'Active',
-    isPrivate: true,
-    yesOdds: 62,
-    noOdds: 38,
-    endDate: '2025-12-31T23:59:59',
-    createdBy: 'mn_shi...k9xu',
-    createdAt: '2025-01-15'
+  // Fetch market data from API
+  useEffect(() => {
+    fetchMarket();
+  }, [id]);
+
+  const fetchMarket = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await getMarketById(id);
+      
+      if (response.success) {
+        setMarket(response.data);
+      }
+    } catch (err) {
+      console.error('Error fetching market:', err);
+      setError(err.message || 'Failed to load market');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePlaceBet = (outcome) => {
@@ -42,6 +51,29 @@ export default function MarketDetail() {
     setShowBetModal(false);
     setBetAmount('');
   };
+
+  if (loading) {
+    return (
+      <div className="market-detail-page">
+        <div style={{ textAlign: 'center', padding: '3rem', color: '#888' }}>
+          Loading market...
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !market) {
+    return (
+      <div className="market-detail-page">
+        <div style={{ padding: '2rem', background: '#ff4444', color: 'white', borderRadius: '8px' }}>
+          Error: {error || 'Market not found'}
+        </div>
+        <Link to="/markets">
+          <Button variant="secondary" style={{ marginTop: '1rem' }}>Back to Markets</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="market-detail-page">

@@ -30,10 +30,8 @@ app.get('/health', (req, res) => {
     });
 });
 
-// API routes will be added here
-// Example structure:
-// app.use('/api/markets', require('./routes/market'));
-// app.use('/api/proof', require('./routes/proof'));
+// API routes
+app.use('/api/markets', require('./routes/markets'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
