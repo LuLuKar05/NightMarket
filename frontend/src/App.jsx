@@ -4,6 +4,8 @@ import { useMidnightWallet } from './hooks/useMidnightWallet';
 import MarketList from './pages/MarketList';
 import MarketDetail from './pages/MarketDetail';
 import Portfolio from './pages/Portfolio';
+import Staking from './pages/Staking';
+import Liquidity from './pages/Liquidity';
 
 function App() {
   const {
@@ -41,11 +43,13 @@ function App() {
             <Link to="/" className="app-title-link">
               <h1>NightMarket</h1>
             </Link>
-            <nav className="app-nav">
-              <Link to="/markets" className="nav-link">Markets</Link>
-              <Link to="/portfolio" className="nav-link">Portfolio</Link>
-            </nav>
           </div>
+          <nav className="app-nav">
+            <Link to="/markets" className="nav-link">Markets</Link>
+            <Link to="/portfolio" className="nav-link">Portfolio</Link>
+            <Link to="/staking" className="nav-link">Staking</Link>
+            <Link to="/liquidity" className="nav-link">Liquidity</Link>
+          </nav>
           <div className="wallet-connect">
             {error && (
               <div className="wallet-error">
@@ -89,6 +93,24 @@ function App() {
               path="/portfolio"
               element={
                 <Portfolio
+                  isConnected={isConnected}
+                  onConnect={handleConnect}
+                />
+              }
+            />
+            <Route
+              path="/staking"
+              element={
+                <Staking
+                  isConnected={isConnected}
+                  onConnect={handleConnect}
+                />
+              }
+            />
+            <Route
+              path="/liquidity"
+              element={
+                <Liquidity
                   isConnected={isConnected}
                   onConnect={handleConnect}
                 />

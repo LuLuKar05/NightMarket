@@ -1,0 +1,345 @@
+.liquidity-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
+}
+
+.liquidity-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.liquidity-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #F7F4EB;
+  margin: 0 0 0.5rem 0;
+}
+
+.liquidity-header p {
+  font-size: 1.125rem;
+  color: #C8CEEE;
+  margin: 0;
+}
+
+.connect-prompt {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(55, 31, 118, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(185, 192, 255, 0.2);
+}
+
+.connect-prompt h2 {
+  font-size: 2rem;
+  color: #F7F4EB;
+  margin-bottom: 1rem;
+}
+
+.connect-prompt p {
+  font-size: 1.125rem;
+  color: #C8CEEE;
+  margin-bottom: 2rem;
+}
+
+.liquidity-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.overview-card {
+  background: rgba(55, 31, 118, 0.3);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(185, 192, 255, 0.2);
+  text-align: center;
+}
+
+.overview-label {
+  font-size: 0.875rem;
+  color: #C8CEEE;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.overview-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #F7F4EB;
+}
+
+.pools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.pool-card {
+  background: rgba(55, 31, 118, 0.3);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(185, 192, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.pool-card:hover {
+  border-color: #B9C0FF;
+  transform: translateY(-2px);
+}
+
+.pool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(185, 192, 255, 0.2);
+}
+
+.pool-header h3 {
+  font-size: 1.5rem;
+  color: #F7F4EB;
+  margin: 0;
+}
+
+.pool-apr {
+  background: linear-gradient(135deg, #371F76 0%, #4a2d8f 100%);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #4ade80;
+}
+
+.pool-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.pool-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pool-stat .stat-label {
+  font-size: 0.875rem;
+  color: #C8CEEE;
+}
+
+.pool-stat .stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #F7F4EB;
+}
+
+.pool-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.add-liquidity-btn,
+.remove-liquidity-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-liquidity-btn {
+  background: linear-gradient(135deg, #371F76 0%, #4a2d8f 100%);
+  color: #F7F4EB;
+}
+
+.add-liquidity-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(185, 192, 255, 0.4);
+}
+
+.remove-liquidity-btn {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.remove-liquidity-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.liquidity-modal {
+  background: #1a0f33;
+  border-radius: 16px;
+  border: 2px solid rgba(185, 192, 255, 0.3);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(185, 192, 255, 0.2);
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: #F7F4EB;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #C8CEEE;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #F7F4EB;
+}
+
+.modal-tabs {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.add-liquidity-section,
+.remove-liquidity-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.add-liquidity-section h3,
+.remove-liquidity-section h3 {
+  font-size: 1.125rem;
+  color: #F7F4EB;
+  margin: 0 0 0.5rem 0;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-size: 0.875rem;
+  color: #C8CEEE;
+  font-weight: 500;
+}
+
+.input-group input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(185, 192, 255, 0.3);
+  background: rgba(55, 31, 118, 0.2);
+  color: #F7F4EB;
+  font-size: 1rem;
+}
+
+.input-group input::placeholder {
+  color: rgba(200, 206, 238, 0.5);
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #B9C0FF;
+}
+
+.action-btn {
+  padding: 0.875rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #371F76 0%, #4a2d8f 100%);
+  color: #F7F4EB;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(185, 192, 255, 0.4);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn.remove {
+  background: rgba(239, 68, 68, 0.8);
+}
+
+.action-btn.remove:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 1);
+}
+
+.liquidity-info {
+  background: rgba(55, 31, 118, 0.3);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(185, 192, 255, 0.2);
+}
+
+.liquidity-info h3 {
+  font-size: 1.25rem;
+  color: #F7F4EB;
+  margin: 0 0 1rem 0;
+}
+
+.liquidity-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.liquidity-info li {
+  color: #C8CEEE;
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.liquidity-info li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #B9C0FF;
+  font-weight: bold;
+}
