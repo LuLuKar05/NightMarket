@@ -16,6 +16,7 @@ export default function MarketDetail({ isConnected, walletAddress, onConnect }) 
   const [error, setError] = useState(null);
   const [betAmount, setBetAmount] = useState('');
   const [showBetModal, setShowBetModal] = useState(false);
+  const [showConnectModal, setShowConnectModal] = useState(false);
   const [selectedOutcome, setSelectedOutcome] = useState(null);
   const [betLoading, setBetLoading] = useState(false);
   const [betError, setBetError] = useState(null);
@@ -47,10 +48,8 @@ export default function MarketDetail({ isConnected, walletAddress, onConnect }) 
   const handlePlaceBet = (outcome) => {
     // Check if wallet is connected
     if (!isConnected || !walletAddress) {
-      // Prompt user to connect wallet
-      if (window.confirm('You need to connect your wallet to place bets. Would you like to connect now?')) {
-        onConnect();
-      }
+      // Show connect wallet modal
+      setShowConnectModal(true);
       return;
     }
 
