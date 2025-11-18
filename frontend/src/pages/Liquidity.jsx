@@ -5,8 +5,8 @@ function Liquidity({ isConnected, onConnect }) {
   const [pools, setPools] = useState([
     {
       id: 1,
-      name: 'NMT/USDC',
-      tokenA: 'NMT',
+      name: 'NIGHT/USDC',
+      tokenA: 'NIGHT',
       tokenB: 'USDC',
       tvl: 125000,
       apr: 18.5,
@@ -15,8 +15,8 @@ function Liquidity({ isConnected, onConnect }) {
     },
     {
       id: 2,
-      name: 'NMT/ETH',
-      tokenA: 'NMT',
+      name: 'NIGHT/ETH',
+      tokenA: 'NIGHT',
       tokenB: 'ETH',
       tvl: 85000,
       apr: 22.3,
@@ -25,8 +25,8 @@ function Liquidity({ isConnected, onConnect }) {
     },
     {
       id: 3,
-      name: 'NMT/BTC',
-      tokenA: 'NMT',
+      name: 'NIGHT/BTC',
+      tokenA: 'NIGHT',
       tokenB: 'BTC',
       tvl: 200000,
       apr: 15.8,

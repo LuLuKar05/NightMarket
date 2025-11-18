@@ -277,32 +277,20 @@ export default function MarketDetail({ isConnected, walletAddress, onConnect }) 
                 disabled={betLoading}
               />
               
-              <div className="potential-return" style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '1rem',
-                background: '#f5f5f5',
-                borderRadius: '8px',
-                marginTop: '1rem'
-              }}>
-                <span>Potential Shares:</span>
-                <span className="return-value" style={{ fontWeight: 'bold' }}>
-                  {betAmount ? (parseFloat(betAmount) / (selectedOutcome === 'YES' ? market.yesOdds / 100 : market.noOdds / 100)).toFixed(2) : '0'}
-                </span>
-              </div>
-
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '1rem',
-                background: '#e8f5e9',
-                borderRadius: '8px',
-                marginTop: '0.5rem'
-              }}>
-                <span>Current Odds:</span>
-                <span style={{ fontWeight: 'bold' }}>
-                  {selectedOutcome === 'YES' ? market.yesOdds : market.noOdds}%
-                </span>
+              <div className="bet-summary">
+                <div className="summary-label">Shares</div>
+                <div className="summary-box">
+                  <div className="summary-row">
+                    <span>You will receive:</span>
+                    <span className="summary-value">
+                      {betAmount ? (parseFloat(betAmount) / (selectedOutcome === 'YES' ? market.yesOdds / 100 : market.noOdds / 100)).toFixed(2) : '0'} shares
+                    </span>
+                  </div>
+                  <div className="summary-row secondary">
+                    <span>Current odds:</span>
+                    <span>{selectedOutcome === 'YES' ? market.yesOdds : market.noOdds}%</span>
+                  </div>
+                </div>
               </div>
 
               <Button 

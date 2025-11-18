@@ -247,6 +247,49 @@
   gap: 1.5rem;
 }
 
+.bet-summary {
+  margin-top: 1rem;
+}
+
+.summary-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #F7F4EB;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-box {
+  background: rgba(185, 192, 255, 0.08);
+  border: 1px solid rgba(185, 192, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #F7F4EB;
+}
+
+.summary-row.secondary {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(185, 192, 255, 0.15);
+  font-size: 0.9rem;
+  color: #C8CEEE;
+}
+
+.summary-value {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #22c55e;
+}
+
 .potential-return {
   display: flex;
   justify-content: space-between;
@@ -271,7 +314,9 @@
 }
 
 @media (max-width: 768px) {
-  .market-stats-grid, .info-grid {
+
+  .market-stats-grid,
+  .info-grid {
     grid-template-columns: 1fr;
   }
 
