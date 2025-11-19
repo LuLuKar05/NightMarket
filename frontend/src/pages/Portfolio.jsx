@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Portfolio.css';
 import Button from '../components/common/Button';
 import PrivacyBadge from '../components/market/PrivacyBadge';
+import ConnectWalletPrompt from '../components/common/ConnectWalletPrompt';
 import { getPortfolio, getPortfolioHistory, closeBet } from '../services/api';
 
 export default function Portfolio({ isConnected, walletAddress, onConnect }) {
@@ -115,14 +116,11 @@ export default function Portfolio({ isConnected, walletAddress, onConnect }) {
           </div>
         </div>
 
-        <div className="empty-state">
-          <p>Please connect your Lace wallet to view your portfolio.</p>
-          <div>
-            <button className="btn btn-primary btn-medium" onClick={onConnect}>
-              Connect Wallet
-            </button>
-          </div>
-        </div>
+        <ConnectWalletPrompt 
+          onConnect={onConnect}
+          title="Connect Your Wallet"
+          subtitle="Connect your Lace wallet to view your portfolio and track your positions"
+        />
       </div>
     );
   }

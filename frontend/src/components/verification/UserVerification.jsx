@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Shield, CheckCircle, XCircle, AlertTriangle, RefreshCw, Clock } from 'lucide-react';
 import Card from '../common/Card';
 import Button from '../common/Button';
+import ConnectWalletPrompt from '../common/ConnectWalletPrompt';
 import { submitVerification, checkVerification } from '../../services/api';
 import './UserVerification.css';
 
@@ -193,20 +194,11 @@ const UserVerification = ({ isConnected, onConnect }) => {
   if (!isConnected) {
     return (
       <div className="user-verification">
-        <Card className="verification-card">
-          <div className="connect-prompt">
-            <Shield size={48} className="icon-shield-large" />
-            <h2>Connect Your Wallet</h2>
-            <p>Please connect your Midnight wallet to access identity verification features</p>
-            <Button onClick={onConnect} className="connect-wallet-button">
-              Connect Wallet
-            </Button>
-            <div className="connect-info">
-              <AlertTriangle size={16} />
-              <span>Zero-knowledge verification requires a connected wallet to generate cryptographic proofs</span>
-            </div>
-          </div>
-        </Card>
+        <ConnectWalletPrompt 
+          onConnect={onConnect}
+          title="Connect Your Wallet"
+          subtitle="Connect your Lace wallet to verify your identity using zero-knowledge proofs"
+        />
       </div>
     );
   }

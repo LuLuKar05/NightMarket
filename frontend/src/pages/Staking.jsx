@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Staking.css';
+import ConnectWalletPrompt from '../components/common/ConnectWalletPrompt';
 
 function Staking({ isConnected, onConnect }) {
   const [stakedNight, setStakedNight] = useState(0);
@@ -52,13 +53,11 @@ function Staking({ isConnected, onConnect }) {
   if (!isConnected) {
     return (
       <div className="staking-page">
-        <div className="connect-prompt">
-          <h2>Connect Your Wallet</h2>
-          <p>Please connect your wallet to access staking features</p>
-          <button className="connect-button" onClick={onConnect}>
-            Connect Wallet
-          </button>
-        </div>
+        <ConnectWalletPrompt 
+          onConnect={onConnect}
+          title="Connect Your Wallet"
+          subtitle="Connect your Lace wallet to stake NIGHT tokens and earn DUST rewards"
+        />
       </div>
     );
   }

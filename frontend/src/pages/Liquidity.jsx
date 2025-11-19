@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Liquidity.css';
+import ConnectWalletPrompt from '../components/common/ConnectWalletPrompt';
 
 function Liquidity({ isConnected, onConnect }) {
   const [pools, setPools] = useState([
@@ -84,13 +85,11 @@ function Liquidity({ isConnected, onConnect }) {
   if (!isConnected) {
     return (
       <div className="liquidity-page">
-        <div className="connect-prompt">
-          <h2>Connect Your Wallet</h2>
-          <p>Please connect your wallet to access liquidity pools</p>
-          <button className="connect-button" onClick={onConnect}>
-            Connect Wallet
-          </button>
-        </div>
+        <ConnectWalletPrompt 
+          onConnect={onConnect}
+          title="Connect Your Wallet"
+          subtitle="Connect your Lace wallet to provide liquidity and earn trading fees"
+        />
       </div>
     );
   }

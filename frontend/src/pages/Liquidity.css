@@ -23,25 +23,7 @@
   margin: 0;
 }
 
-.connect-prompt {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: rgba(55, 31, 118, 0.3);
-  border-radius: 12px;
-  border: 1px solid rgba(185, 192, 255, 0.2);
-}
-
-.connect-prompt h2 {
-  font-size: 2rem;
-  color: #F7F4EB;
-  margin-bottom: 1rem;
-}
-
-.connect-prompt p {
-  font-size: 1.125rem;
-  color: #C8CEEE;
-  margin-bottom: 2rem;
-}
+/* Old connect-prompt styles removed - now using ConnectWalletPrompt component */
 
 .liquidity-overview {
   display: grid;

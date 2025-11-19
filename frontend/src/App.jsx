@@ -160,11 +160,13 @@ function App() {
 function LandingPage() {
   return (
     <div className="landing-page">
+      {/* Hero Section */}
       <section className="hero-section">
-        <h1 className="hero-title">Trade the Future, Privately</h1>
+        <div className="hero-badge">🌑 Built on Midnight Network</div>
+        <h1 className="hero-title">The Global Standard for Private, Compliant Prediction Markets</h1>
         <p className="hero-description">
-          NightMarket brings prediction markets to the Midnight Network, enabling
-          privacy-preserving trading with zero-knowledge proofs.
+          Trade on politics, sports, and crypto markets with complete privacy. 
+          Night Market leverages zero-knowledge proofs to shield your positions while maintaining regulatory compliance.
         </p>
         <div className="hero-actions">
           <Link to="/markets" className="cta-button primary">
@@ -174,23 +176,180 @@ function LandingPage() {
             View Portfolio
           </Link>
         </div>
+        <div className="hero-stats">
+          <div className="stat-item">
+            <div className="stat-value">100%</div>
+            <div className="stat-label">Private</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-value">ZK</div>
+            <div className="stat-label">Powered</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-value">∞</div>
+            <div className="stat-label">Markets</div>
+          </div>
+        </div>
       </section>
 
-      <section className="features">
-        <div className="feature">
-          <div className="feature-icon">P</div>
-          <h3>Private Trading</h3>
-          <p>Your positions and bets remain completely private using zero-knowledge proofs</p>
+      {/* Problem Section */}
+      <section className="problem-section">
+        <h2 className="section-title">The Privacy Gap in Prediction Markets</h2>
+        <p className="section-subtitle">
+          Current platforms expose your financial positions, political leanings, and net worth to the world
+        </p>
+        <div className="comparison-grid">
+          <div className="comparison-card bad">
+            <h3>❌ Traditional Markets</h3>
+            <ul>
+              <li>Public bet visibility</li>
+              <li>Identity exposure</li>
+              <li>Front-running risk</li>
+              <li>Institutional hesitancy</li>
+              <li>Single-chain limitation</li>
+            </ul>
+          </div>
+          <div className="comparison-card good">
+            <h3>✅ Night Market</h3>
+            <ul>
+              <li>Shielded positions</li>
+              <li>Zero-knowledge privacy</li>
+              <li>Private execution</li>
+              <li>Compliance-ready</li>
+              <li>Cross-chain future</li>
+            </ul>
+          </div>
         </div>
-        <div className="feature">
-          <div className="feature-icon">Z</div>
-          <h3>Zero-Knowledge Proofs</h3>
-          <p>Prove your trades without revealing sensitive information</p>
+      </section>
+
+      {/* Features Section */}
+      <section className="features-section">
+        <h2 className="section-title">Core Features</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon">🛡️</div>
+            <h3>Shielded Betting</h3>
+            <p>Private position management using zero-knowledge proofs. Your bets remain completely confidential.</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">💰</div>
+            <h3>Shielded Vault</h3>
+            <p>Secure, private asset custody for betting funds with cryptographic guarantees.</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">🏭</div>
+            <h3>Market Factory</h3>
+            <p>Create and manage prediction markets on any topic with permissioned system.</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">📊</div>
+            <h3>Resolution Oracle</h3>
+            <p>Decentralized outcome verification ensures fair and transparent results.</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">🔐</div>
+            <h3>ZK-KYC Ready</h3>
+            <p>Verify compliance without revealing identity. Privacy meets regulation.</p>
+          </div>
+          <div className="feature-card">
+            <div className="feature-icon">⚖️</div>
+            <h3>Compliance Portal</h3>
+            <p>Regulatory reporting without user doxxing. Built for the future.</p>
+          </div>
         </div>
-        <div className="feature">
-          <div className="feature-icon">C</div>
-          <h3>Compliant</h3>
-          <p>Built with ZK-KYC for regulatory compliance while maintaining privacy</p>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="how-it-works-section">
+        <h2 className="section-title">How It Works</h2>
+        <div className="steps-grid">
+          <div className="step-card">
+            <div className="step-number">1</div>
+            <h3>Connect Wallet</h3>
+            <p>Connect your Lace wallet to the Midnight Network for secure, private transactions.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">2</div>
+            <h3>Verify Your Identity</h3>
+            <p>Verify through Zero-Knowledge KYC - prove compliance without revealing personal data.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">3</div>
+            <h3>Trade Privately</h3>
+            <p>Spend on anything you want - bet on markets, provide liquidity, stake tokens, all privately.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">4</div>
+            <h3>Collect Winnings</h3>
+            <p>Receive payouts privately when markets resolve. Your positions remain confidential.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Value Proposition Section */}
+      <section className="value-section">
+        <h2 className="section-title">Why Night Market?</h2>
+        <div className="value-grid">
+          <div className="value-card">
+            <div className="value-icon">🕵️</div>
+            <h3>For Privacy Advocates</h3>
+            <p>Trade anonymously without exposing your positions, wealth, or political views to the world.</p>
+          </div>
+          <div className="value-card">
+            <div className="value-icon">🐋</div>
+            <h3>For Crypto Whales</h3>
+            <p>High-net-worth individuals can avoid front-running and protect their trading strategies.</p>
+          </div>
+          <div className="value-card">
+            <div className="value-icon">🏢</div>
+            <h3>For Institutions</h3>
+            <p>Hedge funds and insurance companies get compliant hedging with privacy guarantees.</p>
+          </div>
+          <div className="value-card">
+            <div className="value-icon">🌍</div>
+            <h3>For Regulated Markets</h3>
+            <p>Jurisdictions requiring KYC can participate while maintaining user privacy.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Technology Section */}
+      <section className="tech-section">
+        <h2 className="section-title">Powered by Midnight</h2>
+        <p className="section-subtitle">
+          Built on the Midnight blockchain, the first privacy-focused Layer 1 with compliance built-in
+        </p>
+        <div className="tech-features">
+          <div className="tech-item">
+            <span className="tech-emoji">🔐</span>
+            <span>Zero-Knowledge Proofs</span>
+          </div>
+          <div className="tech-item">
+            <span className="tech-emoji">⚡</span>
+            <span>Compact Smart Contracts</span>
+          </div>
+          <div className="tech-item">
+            <span className="tech-emoji">🛡️</span>
+            <span>Private State Management</span>
+          </div>
+          <div className="tech-item">
+            <span className="tech-emoji">🔗</span>
+            <span>Cardano Ecosystem</span>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <h2>Ready to Trade Privately?</h2>
+        <p>Join the future of prediction markets where privacy meets compliance</p>
+        <div className="cta-buttons">
+          <Link to="/markets" className="cta-button primary large">
+            Start Trading Now
+          </Link>
+          <Link to="/staking" className="cta-button secondary large">
+            Stake & Earn
+          </Link>
         </div>
       </section>
     </div>
