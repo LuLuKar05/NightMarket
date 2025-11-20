@@ -2,13 +2,36 @@ pragma language_version 0.18.0;
 
 import CompactStandardLibrary;
 
+// Ledger: KYC registry as a Merkle tree of 32-byte commitments
+export ledger kycRegistry: MerkleTree<10, Bytes<32>>;
+
+// Witness: opaque ZK proof blob from off-chain verifier
 witness kyc_proof(): Opaque<"Uint8Array">;
 
+// Witness: off-chain logic parses the opaque proof and returns:
+// - the committed KYC leaf (e.g., hash/commitment)
+// - the Merkle path proving inclusion of that leaf in kycRegistry
+witness decodeKycProof(
+  proof: Opaque<"Uint8Array">
+): struct {
+  leaf: Bytes<32>;
+  path: MerkleTreePath<10, Bytes<32>>;
+};
+
+// Public entry point used by the dApp
 export circuit verify_kyc_status(): Boolean {
-  return verify_kyc(kyc_proof());
+  const proof = kyc_proof();
+  return verify_kyc(proof);
 }
 
+// Core verification circuit: checks Merkle inclusion against current registry root
 circuit verify_kyc(proof: Opaque<"Uint8Array">): Boolean {
-  // Placeholder for actual ZKP logic
-  return true;
+  // Let off-chain code do ZKP verification and return a merkle path + leaf
+  const decoded = decodeKycProof(proof);
+
+  // Ensure the path truly belongs to this on-chain registry
+  const root = merkleTreePathRoot<10, Bytes<32>>(decoded.path);
+
+  // kycRegistry.checkRoot asserts that this root matches the registry’s root
+  return kycRegistry.checkRoot(root);
 }
