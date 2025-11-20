@@ -242,7 +242,7 @@ VITE_PROOF_SERVER_URL=http://localhost:6300 # Proof server endpoint
 
 ## 🗺️ Strategic Roadmap
 
-### Horizon 1: The Sovereign Foundation (Months 1-6) 🚧 In Progress
+### The Sovereign Foundation 
 **Goal:** Prove that privacy and compliance can coexist
 
 - [x] Core Compact contract deployment (4 core contracts)
@@ -253,65 +253,6 @@ VITE_PROOF_SERVER_URL=http://localhost:6300 # Proof server endpoint
 - [ ] Genesis markets (Crypto prices, Major events)
 - [ ] Initial liquidity seeding
 - [ ] Proof Server cluster establishment
-
-### Horizon 2: Liquidity & The "Night" Economy (Months 6-12)
-**Goal:** Deepen liquidity and launch native token economy
-
-- [ ] **$NIGHT Token Launch**
-  - Betting asset and staking mechanism
-  - Liquidity provider rewards
-  - Governance rights for dispute resolution
-  
-- [ ] **Liquidity Mining Program**
-  - Incentivize pool provision
-  - Tiered reward system
-  - LP token mechanics
-  
-- [ ] **AMM Integration**
-  - ZK-enabled automated market maker
-  - Instant betting execution
-  - Low-volume market support
-  
-- [ ] **Privacy-Preserving Referrals**
-  - ZK-based commission system
-  - Untraceable referral links
-
-### Horizon 3: Decentralization & Oracle Network (Year 1-2)
-**Goal:** Remove centralization and empower community
-
-- [ ] **Optimistic Oracle**
-  - Community-disputed resolution
-  - $NIGHT staking for verification
-  - Slashing for false outcomes
-  
-- [ ] **Permissionless Market Creation**
-  - Stake $NIGHT to create markets
-  - Decentralized liquidity bootstrapping
-  - Creator fee mechanisms
-  
-- [ ] **Night DAO**
-  - Protocol fee governance
-  - Compliance parameter voting
-  - Treasury management
-
-### Horizon 4: Institutional Bridges & RWAs (Year 2+)
-**Goal:** The "Bloomberg Terminal" of Prediction Markets
-
-- [ ] **Institutional Dark Pools**
-  - Permissioned private pools
-  - Corporate hedging instruments
-  - Insurance payouts integration
-  
-- [ ] **Regulatory APIs**
-  - View Key dashboards for auditors
-  - Jurisdiction-specific compliance
-  - Selective disclosure mechanisms
-  
-- [ ] **Cross-Chain Settlement**
-  - Cardano asset bridging
-  - Ethereum interoperability
-  - Bitcoin settlement layer
-  - Midnight as privacy layer for all chains
 
 ---
 
@@ -349,20 +290,6 @@ Higher Transaction Volume → More DUST Burned → Network Value ↑
 
 ---
 
-## 📚 Documentation
-
-- **[Quick Start Guide](./QUICKSTART.md)** - Get up and running in 5 minutes
-- **[Port Configuration](./PORT_CONFIGURATION.md)** - Port setup and troubleshooting
-- **[Project Structure](./PROJECT_STRUCTURE.md)** - Codebase organization
-- **[Frontend Implementation](./FRONTEND_IMPLEMENTATION.md)** - React app details
-- **[Wallet Integration](./WALLET_INTEGRATION.md)** - Midnight wallet setup
-- **[Component Usage](./COMPONENT_USAGE_GUIDE.md)** - UI component library
-- **[Testing Guide](./TESTING_GUIDE.md)** - Testing strategies
-- **[MVP Analysis](./MVP_ANALYSIS.md)** - Feature breakdown
-- **[Implementation Summary](./IMPLEMENTATION_SUMMARY.md)** - Technical overview
-
----
-
 ## 🏆 Competitive Advantages
 
 | Feature | Polymarket | Augur | Night Market |
@@ -382,15 +309,6 @@ Higher Transaction Volume → More DUST Burned → Network Value ↑
 - **Serviceable Addressable Market (SAM):** $50B+ (Crypto prediction markets)
 - **Serviceable Obtainable Market (SOM):** $5B+ (Privacy-focused segment)
 
-### Target Segments
-
-1. **Cypherpunks** - Privacy advocates seeking anonymous betting
-2. **Crypto Whales** - High-net-worth individuals avoiding front-running
-3. **Institutions** - Hedge funds, insurance companies needing compliant hedging
-4. **Regulated Markets** - Jurisdictions requiring KYC but valuing privacy (EU, UK)
-
----
-
 ## 🔒 Security & Audits
 
 ### Current Status
@@ -404,16 +322,6 @@ Higher Transaction Volume → More DUST Burned → Network Value ↑
 - Private keys never exposed on-chain
 - Witness implementations type-safe with TypeScript
 - Multi-layer security architecture
-
----
-
-## 🌐 Community & Support
-
-- **Website**: [Coming Soon]
-- **Twitter/X**: [@NightMarketDeFi](https://twitter.com/NightMarketDeFi) *(Placeholder)*
-- **Discord**: [Join Community](https://discord.gg/nightmarket) *(Placeholder)*
-- **Documentation**: [docs.nightmarket.io](https://docs.nightmarket.io) *(Placeholder)*
-- **GitHub Issues**: [Report Bugs](https://github.com/LuLuKar05/NightMarket/issues)
 
 ---
 
