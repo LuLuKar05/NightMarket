@@ -26,12 +26,22 @@ struct Market {
   compliance_rules: ComplianceRules;
 }
 
+// Public ledger state
 export ledger market_count: Counter;
-export ledger markets: List<Market>;
+export ledger markets: Map<Uint<64>, Market>;
 export ledger factory_owner: Bytes<32>;
 
+// Private sender identity (supplied by the dApp)
 witness sender(): Bytes<32>;
-witness kyc_proof(): Opaque<"Uint8Array">; // Only "string" and "Uint8Array" are supported opaque types
+
+// Typed KYC proof witnesses (all private by default)
+witness R(): Field;
+witness s(): Field;
+witness c(): Field;
+witness leaf(): Field;
+witness path(): Vector<32, Field>;
+witness ts(): Uint<64>;
+witness kyc_level(): Uint<8>;
 
 export circuit create_market(
   question: Opaque<"string">,
@@ -40,34 +50,78 @@ export circuit create_market(
   resolution_time: Uint<64>,
   compliance_rules: ComplianceRules
 ): Uint<64> {
-  assert(verify_kyc(kyc_proof()), "Invalid KYC proof");
+  // KYC verification stub – real logic would go inside verify_kyc
+  assert(
+    verify_kyc(R(), s(), c(), leaf(), path(), ts(), kyc_level()),
+    "Invalid KYC proof"
+  );
+
+  // Increment market counter (Counter.increment takes Uint<16>)[[Counter ADT](https://docs.midnight.network/compact/ledger-adt)]
   market_count.increment(1);
-  const market_id = market_count as Uint<64>;
+
+  // Reading a Counter as an expression returns Uint<64>[[Ledger state](https://docs.midnight.network/compact/lang-ref#declaring-and-maintaining-public-state)]
+  const market_id: Uint<64> = market_count;
+
   const new_market: Market = Market {
     market_id,
-    disclose(question),
-    disclose(description),
-    disclose(end_time),
-    disclose(resolution_time),
-    disclose(sender()),
+    question,
+    description,
+    end_time,
+    resolution_time,
+    sender(),
     false,
     Outcome.UNDECIDED,
     0,
     0,
     0,
-    disclose(compliance_rules)
+    compliance_rules
   };
-  markets.pushFront(new_market); // Add new market to the front of the list
+
+  // Map.insert is a ledger ADT operation[[Map ADT](https://docs.midnight.network/compact/ledger-adt#mapkey_type-value_type)]
+  markets.insert(market_id, new_market);
+
   return market_id;
 }
 
-export circuit get_most_recent_market(): Market {
-  const maybe_market = markets.head();
-  assert(maybe_market.is_some, "No market found");
-  return maybe_market.value;
+export circuit get_market_details(market_id: Uint<64>): Market {
+  const current_count: Uint<64> = market_count;
+  assert(
+    market_id > 0 && market_id <= current_count,
+    "Market not found"
+  );
+
+  // Map.lookup returns the stored Market[[Map ADT](https://docs.midnight.network/compact/ledger-adt#mapkey_type-value_type)]
+  return markets.lookup(market_id);
 }
 
-circuit verify_kyc(proof: Opaque<"Uint8Array">): Boolean {
-  // Placeholder for actual ZK-KYC verification logic
-  return true;
-}
+// KYC verification stub – uses only documented language features.
+// Filled with TODOs because no Schnorr / Merkle / block-time primitives
+// are described in the provided docs.
+circuit verify_kyc(
+  R_val: Field,
+  s_val: Field,
+  c_val: Field,
+  leaf_val: Field,
+  path_val: Vector<32, Field>,
+  ts_val: Uint<64>,
+  kyc_level_val: Uint<8>
+): Boolean {
+  // Example public constants
+  const MAX_AGE_SECONDS: Uint<64> = 3600;
+  const MIN_KYC_LEVEL: Uint<8> = 1;
+
+  // TODO: implement Schnorr-style proof verification
+  const schnorr_ok: Boolean = true;
+
+  // TODO: implement Merkle inclusion check against a public registry root
+  const merkle_ok: Boolean = true;
+
+  // TODO: implement a real freshness check using documented block-time APIs
+  // For now, treat freshness as always OK to avoid relying on undocumented APIs.
+  const fresh_ok: Boolean = true;
+
+  // KYC level minimum check (pure comparison on witness-derived value)
+  const level_ok: Boolean = kyc_level_val >= MIN_KYC_LEVEL;
+
+  return schnorr_ok && merkle_ok && fresh_ok && level_ok;
+} 

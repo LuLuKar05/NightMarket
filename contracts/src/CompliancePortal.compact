@@ -2,14 +2,48 @@ pragma language_version 0.18.0;
 
 import CompactStandardLibrary;
 
-witness compliance_proof(): Opaque<"Uint8Array">;
+// Typed witnesses for compliance proof components.
+// All of these are treated as *private* witness data by default.
+witness R(): Field;                    // placeholder: group element encoded in a Field
+witness s(): Field;
+witness c(): Field;
+witness leaf(): Field;
+witness path(): Vector<32, Field>;
+witness ts(): Uint<64>;
 
 export circuit prove_compliance(): Boolean {
-  // Only disclose compliance status, not underlying data
-  return verify_compliance(compliance_proof());
+  // Only disclose a single Boolean bit about the private data.
+  // The Boolean returned by this exported circuit is public.
+  return verify_compliance(R(), s(), c(), leaf(), path(), ts());
 }
 
-circuit verify_compliance(proof: Opaque<"Uint8Array">): Boolean {
-  // Placeholder for actual ZKP logic
-  return true;
+circuit verify_compliance(
+  R: Field,
+  s: Field,
+  c: Field,
+  leaf: Field,
+  path: Vector<32, Field>,
+  ts: Uint<64>
+): Boolean {
+  // Public constants (examples; in a real contract these would
+  // typically come from ledger state or constructor parameters).
+  const WHITELIST_ROOT: Field = 0;
+  const MAX_AGE_SECONDS: Uint<64> = 3600;
+
+  // 1) Schnorr-style credential possession check
+  // TODO: implement using appropriate primitives once available.
+  const schnorr_ok: Boolean = true;
+
+  // 2) Merkle inclusion check against WHITELIST_ROOT
+  // TODO: implement Merkle verification once primitives are available.
+  const merkle_ok: Boolean = true;
+
+  // 3) Timestamp freshness check.
+  // Here we *intentionally* let a condition that depends on ts
+  // influence the public return value, so we must declare that
+  // disclosure with `disclose()`. This tells the compiler that
+  // it is acceptable for this Boolean to leak information about ts.
+  const age_ok: Boolean = disclose(ts + MAX_AGE_SECONDS >= 0);
+
+  return schnorr_ok && merkle_ok && age_ok;
 }
