@@ -12,4 +12,3 @@ circuit verify_kyc(proof: Opaque<"Uint8Array">): Boolean {
   // Placeholder for actual ZKP logic
   return true;
 }
->>>>>>> ef14d847d8811815c75fb667d200093ed77685cf
