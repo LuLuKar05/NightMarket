@@ -2,19 +2,45 @@ pragma language_version 0.18.0;
 
 import CompactStandardLibrary;
 
-export ledger market_outcomes: Map<Uint<64>, Uint<8>>; // 0=UNDECIDED, 1=YES, 2=NO
+// Ledger state
+export ledger market_outcomes: Map<Uint<64>, Uint<8>>;
+export ledger authorized_oracles: Set<Bytes<32>>;
 
+// Witnesses
 witness oracle(): Bytes<32>;
 witness outcome(): Uint<8>;
 witness market_id(): Uint<64>;
 
-export circuit resolve_market(): [] {
-  assert(is_authorized_oracle(oracle()), "Not authorized");
-  assert(market_id() > 0 && market_id() <= 100, "Invalid market");
-  market_outcomes.insert(disclose(market_id()), disclose(outcome()));
+// Helper circuit for oracle authorization
+circuit is_authorized_oracle(addr: Bytes<32>): Boolean {
+    return authorized_oracles.member(disclose(addr));
 }
 
-circuit is_authorized_oracle(addr: Bytes<32>): Boolean {
-  // Placeholder: In practice, check against a list of authorized oracles
-  return true;
+// Main circuit for resolving a market
+export circuit resolve_market(): [] {
+    assert(is_authorized_oracle(oracle()), "Unauthorized oracle");
+    const id = market_id();
+    assert(id > 0 && id <= 100, "Invalid market ID");
+    const outcome_value = outcome();
+    assert((outcome_value == 1) || (outcome_value == 2), "Invalid outcome");
+    market_outcomes.insert(disclose(id), disclose(outcome_value));
+    return;
+}
+
+// Getter for market outcome
+export circuit get_market_outcome(id: Uint<64>): Uint<8> {
+    assert(id > 0 && id <= 100, "Invalid market ID");
+    return market_outcomes.lookup(disclose(id));
+}
+
+// Add authorized oracle (authorization logic must be implemented as needed)
+export circuit add_authorized_oracle(addr: Bytes<32>): Boolean {
+    authorized_oracles.insert(disclose(addr));
+    return true;
+}
+
+// Remove authorized oracle (authorization logic must be implemented as needed)
+export circuit remove_authorized_oracle(addr: Bytes<32>): Boolean {
+    authorized_oracles.remove(disclose(addr));
+    return true;
 }
