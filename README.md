@@ -310,7 +310,7 @@ Higher Transaction Volume → More DUST Burned → Network Value ↑
 - **Serviceable Obtainable Market (SOM):** $5B+ (Privacy-focused segment)
 
 
-## The Smart Contract Archictecture:
+## The Smart Contract Architecture:
 
 - The contract is valid Compact code and should compile and function as intended, given the current language and standard library documentation.
     
